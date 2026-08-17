@@ -1,0 +1,2 @@
+# VOID
+From nothing - everything.

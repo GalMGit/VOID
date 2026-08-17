@@ -1,0 +1,28 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+    </Style>
+    <Style Selector="Slider">
+        <Setter Property="Foreground" Value="#626262"/>
+        <Setter Property="Background" Value="#131313"/>
+    </Style>
+    
+    <Style Selector="Grid.mediaGrid">
+        <Setter Property="Background" Value="#1E1E1E"/>
+    </Style>
+    
+    <Style Selector="StackPanel.controlsStackPanel">
+        <Setter Property="Margin" Value="10 0"/>
+    </Style>
+    
+    <Style Selector="TextBlock.volumeTextBlock">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="0 0 8 0"/>
+    </Style>
+    
+    <Style Selector="TextBlock.volumeControlTextBlock">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="8 0 10 0"/>
+    </Style>
+</Styles>

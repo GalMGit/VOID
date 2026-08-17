@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="compose.yaml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/backend/">
+    <Project Path="src/backend/VOID.API/VOID.API.csproj" />
+    <Project Path="src/backend/VOID.Application/VOID.Application.csproj" />
+    <Project Path="src/backend/VOID.Domain/VOID.Domain.csproj" />
+    <Project Path="src/backend/VOID.Infrastructure/VOID.Infrastructure.csproj" />
+    <Project Path="src/backend/VOID.Persistence/VOID.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/src/frontend/">
+    <Project Path="src/frontend/VOID.APP/VOID.APP.csproj" />
+  </Folder>
+  <Folder Name="/src/shared/">
+    <Project Path="src/shared/VOID.Shared.Contracts/VOID.Shared.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VOID.Application.UnitTests/VOID.Application.UnitTests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,63 @@
+# IDE - папки и файлы
+.idea/
+**/.idea/
+.idea*/
+**/.idea*/
+.vscode/
+**/.vscode/
+*.user
+*.suo
+*.userprefs
+.secret
+.env
+**/.env
+**/appsettings.Development.json
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# NuGet Packages
+*.nupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Visual Studio
+.vs/
+*.sln.docstates
+
+# Test Results
+TestResults/
+*.trx
+*.tmp
+
+# dotnet core
+publish/
+*.pidb
+*.svclog
+*.scc
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
+
+# Benchmark results
+BenchmarkDotNet.Artifacts/
+
+# Azure Functions
+local.settings.json

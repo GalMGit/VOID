@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Group.CreateGroup"
+             x:DataType="vm:CreateGroupViewModel"
+             x:Class="VOID.APP.Views.Pages.Group.CreateGroup.CreateGroupView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Modals/ModalStyles.axaml"/>
+        <StyleInclude Source="/Styles/Modals/CreateGroup/CreateGroupStyles.axaml"/>
+    </UserControl.Styles>
+    <Border Classes="modalBorder"
+            Width="400"
+            CornerRadius="10"
+            Height="200">
+        <Grid RowDefinitions="*, *">
+            <TextBox Grid.Row="0"
+                     Watermark="Введите название"
+                     Classes="groupNameTextBox"
+                     HorizontalAlignment="Stretch"
+                     Text="{Binding GroupName}"/>
+            <Button Grid.Row="1" 
+                    HorizontalAlignment="Center"
+                    Content="Создать"
+                    Classes="createGroupButton"
+                    Command="{Binding CreateGroupCommand}"/>
+        </Grid>
+    </Border>
+</UserControl>

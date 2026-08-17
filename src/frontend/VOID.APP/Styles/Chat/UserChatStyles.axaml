@@ -1,0 +1,533 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:imageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+                <Setter Property="FontWeight" Value="400"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        </Style>
+
+        <Style Selector="PathIcon">
+                <Setter Property="Foreground" Value="{DynamicResource IconsDefault}"/>
+        </Style>
+        <Style Selector="SelectableTextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+                <Setter Property="FontWeight" Value="400"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+
+        </Style>
+        <Style Selector="Separator">
+                <Setter Property="Background" Value="{DynamicResource SeparatorForeground}"/>
+        </Style>
+        <Style Selector="TextBlock.informationTextBlock">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Margin" Value="20"/>
+        </Style>
+        <Style Selector="TextBlock.interlocutorNameTextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        </Style>
+
+        <Style Selector="TextBlock.aboutMyselfTextBlock">
+                <Setter Property="Margin" Value="20 0 0 0 "/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="PathIcon.infoIcon">
+                <Setter Property="Margin" Value="20"/>
+        </Style>
+        <Style Selector="TextBlock.infoChatTextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5 0 0 0"/>
+                <Setter Property="Foreground" Value="#827E76"/>
+                <Setter Property="FontSize" Value="20"/>
+        </Style>
+        <Style Selector="SelectableTextBlock.interlocutorSelectableTextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+                <Setter Property="Foreground" Value="#495B74"/>
+                <Setter Property="FontSize" Value="19"/>
+                <Setter Property="SelectionBrush" Value="#2E5C2E"/>
+                <Setter Property="Margin" Value="0 20 0 0"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.openProfileButton">
+                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="Margin" Value="5 0 0 0"/>
+        </Style>
+        <Style Selector="TextBlock.isTypingTextBlock">
+                <Setter Property="Margin" Value="10 7 0 0"/>
+                <Setter Property="FontSize" Value="15"/>
+        </Style>
+        <Style Selector="TextBlock.interlocutorLastSeenTextBlock">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Margin" Value="10 5 0 0"/>
+        </Style>
+        <Style Selector="TextBlock.userNameTextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="TextBlock.authorNameTextBlock">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+                <Setter Property="Foreground" Value="{DynamicResource AuthorGroupMessageForeground}"/>
+        </Style>
+        <Style Selector="Button">
+                <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                </Style>
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                </Style>
+
+        </Style>
+        
+        <Style Selector="Ellipse.typingDot">
+                <Setter Property="Fill" Value="Gray" />
+                <Style.Animations>
+                        <Animation
+                                Duration="0:0:1"
+                                IterationCount="Infinite">
+                                <KeyFrame Cue="0%">
+                                        <Setter Property="Opacity" Value="0.3" />
+                                </KeyFrame>
+                                <KeyFrame Cue="50%">
+                                        <Setter Property="Opacity" Value="1" />
+                                </KeyFrame>
+                                <KeyFrame Cue="100%">
+                                        <Setter Property="Opacity" Value="0.3" />
+                                </KeyFrame>
+                        </Animation>
+                </Style.Animations>
+        </Style>
+
+
+        <Style Selector="Button.deleteMessageButton /template/ ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+                <Setter Property="FontWeight" Value="600"/>
+                <Setter Property="Width" Value="250"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Style Selector="^:pointerover">
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                </Style>
+        </Style>
+        <Style Selector="Button.userChatNameText">
+                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+                <Setter Property="Margin" Value="15 15 0 0 "/>
+        </Style>
+        <Style Selector="TextBlock.userChatOnlineText">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Margin" Value="0 5 0 0 "/>
+        </Style>
+        <Style Selector="SelectableTextBlock.messageText">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="0 3 20 0"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        </Style>
+        <Style Selector="TextBlock.messageTimeText">
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="Margin" Value="0 0 -5 0 "/>
+        </Style>
+        <Style Selector="TextBlock.senderNameTextBlock">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Margin" Value="0 0 20 0 "/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        </Style>
+
+        <Style Selector="TextBox.enterMessageBox">
+                <Setter Property="MinHeight" Value="55"/>
+                <Setter Property="Background" Value="{DynamicResource TextBoxMain}"/>
+                <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="MaxHeight" Value="150"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="Margin" Value="0 10 10 10"/>
+                <Setter Property="AcceptsReturn" Value="True"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="CornerRadius" Value="13"/>
+                <Setter Property="SelectionBrush" Value="{DynamicResource SelectionColorBrush}"/>
+                <Setter Property="ClipToBounds" Value="False"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Style Selector="^:focus /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxFocus}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+                <Style Selector="^:pointerover /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxPointerover}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+                <Style Selector="^:pointerover:focus /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxPointerover}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+                <Style Selector="^:pressed /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxFocus}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+        </Style>
+
+        <Style Selector="TextBox.editMessageTextBox">
+                <Setter Property="MinHeight" Value="55"/>
+                <Setter Property="ZIndex" Value="1"/>
+                <Setter Property="Background" Value="{DynamicResource TextBoxMain}"/>
+                <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="MaxHeight" Value="150"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="Margin" Value="0 10 10 10"/>
+                <Setter Property="AcceptsReturn" Value="True"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="CornerRadius" Value="13"/>
+                <Setter Property="BorderBrush" Value="#323232"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Style Selector="^:focus /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxFocus}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+                <Style Selector="^:pointerover /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxPointerover}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+                <Style Selector="^:pointerover:focus /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxPointerover}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+                <Style Selector="^:pressed /template/ Border">
+                        <Setter Property="Background" Value="{DynamicResource TextBoxFocus}"/>
+                        <Setter Property="CornerRadius" Value="13"/>
+                </Style>
+        </Style>
+
+        <Style Selector="ListBox.chatsList ListBoxItem">
+                    <Setter Property="Padding"
+                            Value="10" />
+                    <Setter Property="FontSize"
+                            Value="15" />
+                    <Setter Property="CornerRadius"
+                            Value="10 10 10 2 "/>
+                    <Setter Property="FontFamily"
+                            Value="JetBrains Mono" />
+                    <Setter Property="Margin"
+                            Value="20, 5" />
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+
+            </Style>
+            <Style Selector="ListBox.chatsList">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="SelectionMode" Value="Single"/>
+                    <Setter Property="Margin" Value="0 20 0 20"/>
+                    <Setter Property="WrapSelection" Value="True"></Setter>
+
+            </Style>
+
+            <Style Selector="ListBox.chatsList ListBoxItem /template/ ContentPresenter">
+                    <Setter Property="Background"
+                            Value="{DynamicResource ListBoxItemBackground}"/>
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource TextDefault}" />
+            </Style>
+            <Style Selector="ListBox.chatsList ListBoxItem:selected /template/ ContentPresenter">
+                    <Setter Property="Background"
+                            Value="{DynamicResource ListBoxItemBackgroundSelected}"/>
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource TextDefault}" />
+            </Style>
+            <Style Selector="ListBox.chatsList ListBoxItem:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background"
+                            Value="{DynamicResource ListBoxItemBackgroundPointerover}" />
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource TextDefault}" />
+            </Style>
+
+        <Style Selector="ListBox.groupMembers ListBoxItem">
+                    <Setter Property="Padding"
+                            Value="10" />
+                    <Setter Property="FontSize"
+                            Value="15" />
+                    <Setter Property="CornerRadius"
+                            Value="10"/>
+                    <Setter Property="FontFamily"
+                            Value="JetBrains Mono" />
+                    <Setter Property="Margin"
+                            Value="20, 5" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+            </Style>
+            <Style Selector="ListBox.groupMembers">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="SelectionMode" Value="Single"/>
+                    <Setter Property="Margin" Value="0 5 0 5"/>
+                    <Setter Property="WrapSelection" Value="True"></Setter>
+
+            </Style>
+
+            <Style Selector="ListBox.groupMembers ListBoxItem /template/ ContentPresenter">
+                    <Setter Property="Background"
+                            Value="{DynamicResource ListBoxItemBackground}"/>
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource TextDefault}" />
+            </Style>
+            <Style Selector="ListBox.groupMembers ListBoxItem:selected /template/ ContentPresenter">
+                    <Setter Property="Background"
+                            Value="{DynamicResource ListBoxItemBackgroundSelected}"/>
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource TextDefault}" />
+            </Style>
+            <Style Selector="ListBox.groupMembers ListBoxItem:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background"
+                            Value="{DynamicResource ListBoxItemBackgroundPointerover}" />
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource TextDefault}" />
+            </Style>
+
+        <Style Selector="Border.itemMessage">
+                <Setter Property="Padding"
+                        Value="12" />
+                <Setter Property="CornerRadius"
+                        Value="13"/>
+                <Setter Property="Background"
+                        Value="{DynamicResource MessageItemBackground}" />
+                <Setter Property="MaxWidth" Value="450"/>
+
+
+        </Style>
+        <Style Selector="Border.myMessage">
+                <Setter Property="Background" Value="#191919"/>
+                <Setter Property="CornerRadius" Value="10 10 1 10"/>
+        </Style>
+
+        <Style Selector="Border.otherMessage">
+                <Setter Property="CornerRadius" Value="10 10 10 1"/>
+        </Style>
+
+        <Style Selector="Button.sendMediaButton">
+                <Setter Property="Margin" Value="3 0 5 0"/>
+        </Style>
+
+        <Style Selector="ListBox.ListStyle">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Margin" Value="0 0 0 10"/>
+        </Style>
+        <Style Selector="ListBox.ListStyle ListBoxItem">
+                <Setter Property="Background"
+                        Value="Transparent" />
+        </Style>
+        <Style Selector="ListBox.ListStyle ListBoxItem /template/ ContentPresenter">
+                <Setter Property="Background"
+                        Value="Transparent"/>
+        </Style>
+        <Style Selector="ListBox.ListStyle ListBoxItem:selected /template/ ContentPresenter">
+                <Setter Property="Background"
+                        Value="Transparent"/>
+        </Style>
+        <Style Selector="ListBox.ListStyle ListBoxItem:pointerover /template/ ContentPresenter">
+                <Setter Property="Background"
+                        Value="Transparent" />
+        </Style>
+
+        <Style Selector="ToggleButton.splitToggle">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="DimGray"/>
+                </Style>
+                <Style Selector="^:checked /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                </Style>
+        </Style>
+
+
+        <Style Selector="Button.optionsMessageButton ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Style Selector="^:pointerover">
+                        <Setter Property="Background" Value="Transparent"/>
+                </Style>
+        </Style>
+
+
+
+        <Style Selector="Button.scrollToBottom">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Margin" Value="5 0 5 0 "/>
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#1f1f1f"/>
+                </Style>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#121212"/>
+                </Style>
+        </Style>
+
+        <Style Selector="TextBlock.historyClearedTextBlock">
+                <Setter Property="FontSize" Value="25"/>
+        </Style>
+
+        <Style Selector="Border.messageBorder">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+                <Setter Property="ClipToBounds" Value="True"/>
+        </Style>
+        <Style Selector="TextBlock.isEditedTextBlock">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Margin" Value="0 25 0 0"/>
+                <Setter Property="Foreground" Value="{DynamicResource EditMessageForeground}"/>
+        </Style>
+        <Style Selector="StackPanel.checkMarkStackPanel">
+                <Setter Property="Margin" Value="15 20 0 0"/>
+        </Style>
+        <Style Selector="PathIcon.checkMarkTruePathIcon">
+                <Setter Property="Margin" Value="-20 0 0 0"/>
+        </Style>
+        <Style Selector="SplitView.chatRightSplitView">
+                <Setter Property="IsPaneOpen" Value="False"/>
+                <Setter Property="OpenPaneLength" Value="300"/>
+                <Setter Property="PanePlacement" Value="Right"/>
+                <Setter Property="DisplayMode" Value="Inline"/>
+                <Setter Property="PaneBackground" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.editGroupButton">
+                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+        </Style>
+        <Style Selector="TextBlock.groupRoleTextBlock">
+                <Setter Property="Foreground" Value="#306021"/>
+        </Style>
+        <Style Selector="TextBlock.avatarCharTextBlock">
+                <Setter Property="Margin" Value="20 0 20 0"/>
+                <Setter Property="FontSize" Value="20"/>
+        </Style>
+        <Style Selector="imageLoader|AdvancedImage.avatar">
+                <Setter Property="Stretch" Value="UniformToFill"/>
+                <Setter Property="Clip">
+                        <Setter.Value>
+                                <EllipseGeometry RadiusX="25"
+                                                 RadiusY="25"
+                                                 Center="30,30" />
+                        </Setter.Value>
+                </Setter>
+        </Style>
+
+        <Style Selector="Image.avatarMessage">
+                <Setter Property="Stretch" Value="UniformToFill"/>
+                <Setter Property="Clip">
+                        <Setter.Value>
+                                <EllipseGeometry RadiusX="25"
+                                                 RadiusY="25"
+                                                 Center="30,30" />
+                        </Setter.Value>
+                </Setter>
+        </Style>
+
+
+        <Style Selector="Border.backChatsSplitBorder">
+                <Setter Property="Background" Value="{DynamicResource BackPaneBorder}"/>
+                <Setter Property="CornerRadius" Value="12 12 12 12"/>
+        </Style>
+
+        <Style Selector="Ellipse.onlineEllipseTrue">
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Fill" Value="{DynamicResource OnlineEclipseBackground}"/>
+                <Setter Property="Height" Value="10"/>
+                <Setter Property="Width" Value="10"/>
+        </Style>
+        <Style Selector="Ellipse.OnlineEllipseFalse">
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Fill" Value="Gray"/>
+                <Setter Property="Height" Value="10"/>
+                <Setter Property="Width" Value="10"/>
+        </Style>
+        <Style Selector="StackPanel.ellipseStack">
+                <Setter Property="Margin" Value="5 0 0 5"/>
+        </Style>
+
+        <Style Selector="Image.interlocutorAvatarImage">
+                <Setter Property="Width" Value="120"/>
+                <Setter Property="Height" Value="120"/>
+                <Setter Property="Stretch" Value="UniformToFill"/>
+                <Setter Property="Margin" Value="5 0 0 0"/>
+                <Setter Property="Clip">
+                        <Setter.Value>
+                                <EllipseGeometry 
+                                        RadiusX="40" 
+                                        RadiusY="40" 
+                                        Center="50,50"/>
+                        </Setter.Value>
+                </Setter>
+        </Style>
+
+        <Style Selector="Border.backTopHeaderBorder">
+                <Setter Property="Background" Value="{DynamicResource BackTopHeaderBorder}"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Height" Value="70"/>
+                <Setter Property="CornerRadius" Value="13"/>
+        </Style>
+
+        <Style Selector="TextBlock.editMessageTextBlock">
+                <Setter Property="Padding" Value="7"/>
+                <Setter Property="Foreground" Value="Khaki"/>
+        </Style>
+
+        <Style Selector="Border.editMessageBorder">
+                <Setter Property="Background" Value="#262626"/>
+                <Setter Property="ZIndex" Value="1"/>
+                <Setter Property="Margin" Value="10 0 70 5"/>
+                <Setter Property="CornerRadius" Value="9"/>
+                <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style Selector="Button.fileButton">
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="Margin" Value="11 0 0 0 "/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.cancelEditMessageButton">
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Background" Value="OrangeRed"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Margin" Value="0 0 5 0"></Setter>
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="DarkRed"/>
+                </Style>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Red"/>
+                </Style>
+        </Style>
+
+        <Style Selector="PathIcon.likeIcon">
+                <Style Selector="^:pointerover">
+                        <Setter Property="Foreground" Value="PaleGreen"/>
+                </Style>
+        </Style>
+
+        <Style Selector="Button.likeButton">
+                <Setter Property="Background" Value="Transparent"/>
+                <Style Selector="^:pressed">
+                        <Setter Property="Background" Value="Transparent"/>
+                </Style>
+        </Style>
+        
+        <Style Selector="Button.playstopButton">
+                <Setter Property="Background" Value="Transparent"/>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                </Style>
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                </Style>
+                <Style Selector="^:disabled /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                </Style>
+        </Style>
+</Styles>

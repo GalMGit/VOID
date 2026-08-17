@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Repositories/" />
+      <Folder Include="Repositories/ChatRepositories/" />
+      <Folder Include="Repositories/GroupRepositories/" />
+      <Folder Include="Repositories/ImageRepositories/" />
+      <Folder Include="Repositories/MessageRepositories/" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VOID.Application\VOID.Application.csproj" />
+      <ProjectReference Include="..\VOID.Domain\VOID.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.7" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    </ItemGroup>
+
+</Project>

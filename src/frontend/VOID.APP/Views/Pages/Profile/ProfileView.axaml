@@ -1,0 +1,111 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Profile"
+             x:DataType="vm:ProfileViewModel"
+             xmlns:anim="https://github.com/whistyun/AnimatedImage.Avalonia"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:Class="VOID.APP.Views.Pages.Profile.ProfileView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Profile/ProfileStyles.axaml"/>
+        <StyleInclude Source="/Styles/Modals/ModalStyles.axaml"/>
+    </UserControl.Styles>
+    <Border
+        Classes="modalBorder"
+        Width="350"
+        CornerRadius="10"
+        Height="500">
+        <Grid RowDefinitions="Auto,140,Auto,Auto,*">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto" 
+                  Grid.Row="0">
+                <Button Grid.Column="0"
+                        Command="{Binding UploadAvatarCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <PathIcon Data="{StaticResource image_edit_regular}"/>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Button Grid.Column="1"
+                        IsVisible="{Binding UserModel.AvatarUrl, 
+                            Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                        Command="{Binding DeleteAvatarCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <PathIcon Data="{StaticResource image_off_regular}"/>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Button Grid.Column="4"
+                        Command="{Binding LogoutCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <PathIcon Data="{StaticResource sign_out_regular}"/>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Button
+                    Grid.Column="2"
+                    Command="{Binding StartUpdateProfileCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <PathIcon Data="{StaticResource edit_regular}"/>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Button
+                    Grid.Column="3"
+                    IsVisible="{Binding IsEditing}"
+                    Command="{Binding CancelUpdateProfileCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <PathIcon Data="{StaticResource edit_off_regular}"/>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </Grid>
+            <Border Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Classes="avatarBorder">
+                <Image asyncImageLoader:ImageLoader.Source="{Binding UserModel.AvatarUrl}"
+                       Classes="avatarProfileImage"/>
+            </Border>
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="2" 
+                        HorizontalAlignment="Center">
+                <TextBox IsReadOnly="{Binding EditBoxIsReadOnly}"
+                         Classes="editNameTextBox"
+                         HorizontalAlignment="Stretch"
+                         Text="{Binding NameTempText}"/>
+            </StackPanel>
+            <Separator Grid.Row="3"
+                       Height="2"
+                       HorizontalAlignment="Stretch"/>
+            <StackPanel
+                Classes="profileInfoStackPanel"
+                Grid.Row="4"
+                HorizontalAlignment="Stretch">
+                <TextBox IsReadOnly="{Binding EditBoxIsReadOnly}"
+                         Classes="aboutMeTextBox"
+                         Watermark="Напишите что то о себе"
+                         HorizontalAlignment="Stretch"
+                         Text="{Binding AboutMeTempText}"/>
+                <TextBlock Text="О себе"
+                           Classes="aboutMeLabelTextBlock"
+                           VerticalAlignment="Center"/>
+                <SelectableTextBlock
+                    Classes="usernameSelectableTextBlock"
+                    Text="{Binding UserModel.Username, StringFormat='@{0}'}"/>
+                <TextBlock Text="Имя пользователя"
+                           Classes="usernameTextBlock"/>
+                <Button
+                    Content="Сохранить"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding UpdateProfileCommand}"
+                    HorizontalContentAlignment="Center"
+                    IsVisible="{Binding IsEditing}">
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,69 @@
+﻿services:
+  postgres:
+    image: postgres:15
+    container_name: ${COMPOSE_PROJECT_NAME}_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: "no"
+    networks:
+      - void_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}_redis
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    restart: "no"
+    networks:
+      - void_network
+
+  void.api:
+    image: void.api
+    build:
+      context: .
+      dockerfile: src/backend/VOID.API/Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_api
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ConnectionStrings__Postgres=${CONNECTION_STRINGS__POSTGRES}
+      - ConnectionStrings__Redis=${CONNECTION_STRINGS__REDIS}
+      - JwtOptions__SecretKey=${JWT_OPTIONS__SECRET_KEY}
+      - JwtOptions__Expires=${JWT_OPTIONS__EXPIRES}
+      - Encryption__Key=${ENCRYPTION__KEY}
+      - EmailOptions__SmtpServer=${EMAIL_OPTIONS__SMTP_SERVER}
+      - EmailOptions__Port=${EMAIL_OPTIONS__PORT}
+      - EmailOptions__Username=${EMAIL_OPTIONS__USERNAME}
+      - EmailOptions__Password=${EMAIL_OPTIONS__PASSWORD}
+      - EmailOptions__SenderEmail=${EMAIL_OPTIONS__SENDER_EMAIL}
+      - EmailOptions__SenderName=${EMAIL_OPTIONS__SENDER_NAME}
+      - PublicStorageOptions__ServiceUrl=${PUBLIC_STORAGE_OPTIONS__SERVICE_URL}
+      - PublicStorageOptions__Bucket=${PUBLIC_STORAGE_OPTIONS__BUCKET}
+      - PublicStorageOptions__AccessKey=${PUBLIC_STORAGE_OPTIONS__ACCESS_KEY}
+      - PublicStorageOptions__SecretKey=${PUBLIC_STORAGE_OPTIONS__SECRET_KEY}
+      - PublicStorageOptions__BaseUrl=${PUBLIC_STORAGE_OPTIONS__BASE_URL}
+      - PrivateStorageOptions__ServiceUrl=${PRIVATE_STORAGE_OPTIONS__SERVICE_URL}
+      - PrivateStorageOptions__Bucket=${PRIVATE_STORAGE_OPTIONS__BUCKET}
+      - PrivateStorageOptions__AccessKey=${PRIVATE_STORAGE_OPTIONS__ACCESS_KEY}
+      - PrivateStorageOptions__SecretKey=${PRIVATE_STORAGE_OPTIONS__SECRET_KEY}
+      - ApiOptions__BaseUrl=${API_OPTIONS__BASE_URL}
+      - ApiOptions__ApiPrefix=${API_OPTIONS__API_PREFIX}
+
+    ports:
+      - "${API_PORT}:8080"
+    restart: "no"
+    networks:
+      - void_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  void_network:
+    driver: bridge

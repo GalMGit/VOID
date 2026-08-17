@@ -1,0 +1,17 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+    </Style>
+    <Style Selector="TextBlock.searchTextBlock">
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+    
+    <Style Selector="TextBlock.searchUsernameTextBlock">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        <Setter Property="Margin" Value="10 0 0 0"/>
+    </Style>
+    
+</Styles>

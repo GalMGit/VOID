@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <MonoMod_CheckTargetRuntime>false</MonoMod_CheckTargetRuntime>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <AssemblyName>VOID</AssemblyName>
+        <Product>VOID</Product>
+        <AssemblyTitle>VOID</AssemblyTitle>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>Assets/void.ico</ApplicationIcon>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DefineConstants>$(DefineConstants);ENABLE_XAML_HOT_RELOAD</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AnimatedImage.Avalonia" Version="2.1.4" />
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.7.0" />
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Avalonia" Version="11.3.6" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.6" />
+        <PackageReference Include="Avalonia.Labs.Notifications" Version="11.3.1" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.6" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.6" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.6">
+            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.6" />
+        <PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="Avalonia.Markup.Xaml.Loader" Version="11.2.1" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.2.0.14" />
+        <PackageReference Include="DialogHost.Avalonia" Version="0.11.0" />
+        <PackageReference Include="Iciclecreek.Avalonia.Controls.Media" Version="1.0.5" />
+        <PackageReference Include="LibVLCSharp.Avalonia" Version="3.8.2" />
+        <PackageReference Include="MessageBox.Avalonia" Version="3.3.1" />
+        <PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="Avalonia.Markup.Xaml.Loader" Version="11.3.6" />
+        <PackageReference Include="HotAvalonia" Version="2.1.0" />
+        <PackageReference Include="HotAvalonia.Extensions" Version="2.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.15" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.15" />
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
+        <PackageReference Include="PanAndZoom" Version="11.3.6" />
+        <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.6.30">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SoundFlow" Version="1.4.1" />
+        <PackageReference Include="SoundFlow.Codecs.FFMpeg" Version="1.4.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
+        <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.23.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Window\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Layout\LayoutView.axaml.cs">
+        <DependentUpon>LayoutView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models/Settings/" />
+      <Folder Include="Models/Errors/" />
+      <Folder Include="Models/Link/" />
+      <Folder Include="Models/Tokens/" />
+      <Folder Include="Services/Implementations/Link/" />
+      <Folder Include="Services/Implementations/Settings/" />
+      <Folder Include="Services/Implementations/User/" />
+      <Folder Include="Services/Interfaces/ILink/" />
+      <Folder Include="Services/Interfaces/ISettings/" />
+      <Folder Include="ViewModels/Pages/Auth/ConfirmEmail/" />
+      <Folder Include="ViewModels/Pages/Group/EditGroup/" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\shared\VOID.Shared.Contracts\VOID.Shared.Contracts.csproj" />
+    </ItemGroup>
+</Project>

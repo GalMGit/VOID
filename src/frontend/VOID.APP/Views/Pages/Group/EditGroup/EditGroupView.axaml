@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Group.EditGroup"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:DataType="vm:EditGroupViewModel"
+             x:Class="VOID.APP.Views.Pages.Group.EditGroup.EditGroupView">
+  <UserControl.Styles>
+    <StyleInclude Source="/Styles/Modals/ModalStyles.axaml"/>
+    <StyleInclude Source="/Styles/Modals/EditGroup/EditGroupStyles.axaml"/>
+  </UserControl.Styles>
+  
+  <Border Classes="modalBorder"
+          Width="500"
+          CornerRadius="10"
+          Padding="10"
+          MinHeight="200"
+          MaxHeight="700">
+    <Grid RowDefinitions="Auto, 200, Auto, *">
+      <TextBlock Grid.Row="0"
+                 Classes="editTextBlock"
+                 HorizontalAlignment="Center"
+                 Text="Редактирование"/>
+      <Border Grid.Row="1"
+              Width="120"
+              ClipToBounds="True"
+              Background="{DynamicResource MainBackground}"
+              Height="120"
+              CornerRadius="100">
+        <Grid>
+          <Image asyncImageLoader:ImageLoader.Source="{Binding CurrentGroup.ImageUrl}"
+                 Classes="groupImageFirst">
+            <Image.Styles>
+              <Style Selector="Image.groupImageFirst">
+                <Setter Property="Width" Value="130" />
+                <Setter Property="Height" Value="130" />
+                <Setter Property="Stretch" Value="UniformToFill" />
+                <Setter Property="Margin" Value="0 -5 0 0 " />
+                <Setter Property="Clip">
+                  <Setter.Value>
+                    <EllipseGeometry RadiusX="100"
+                                     RadiusY="100"
+                                     Center="50,50" />
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </Image.Styles>
+          </Image>
+          <Button HorizontalAlignment="Center"
+                  Background="Transparent"
+                  Command="{Binding UploadGroupImageCommand}"
+                  VerticalAlignment="Center">
+            <Button.ContentTemplate>
+              <DataTemplate>
+                <PathIcon Data="{StaticResource image_edit_regular}"
+                          Foreground="#757A7A7A"/>
+              </DataTemplate>
+            </Button.ContentTemplate>
+          </Button>
+        </Grid>
+      </Border>
+      <TextBlock Text="Участники"
+                 Grid.Row="2"
+                 FontSize="20"
+                 HorizontalAlignment="Center"
+                 Classes="membersTextBlock"/>
+      <ScrollViewer  Grid.Row="3" MaxHeight="250">
+        <ItemsControl ItemsSource="{Binding CurrentGroup.Members}"
+          x:Name="MemberList">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="memberBorder"
+                      Padding="15">
+                <Grid ColumnDefinitions="*,Auto, Auto">
+                  <TextBlock
+                    Grid.Column="0"
+                    FontSize="17"
+                    VerticalAlignment="Center"
+                    Text="{Binding Username}"/>
+                  <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Classes="groupRoleTextBlock"
+                    FontSize="17"
+                    Text="{Binding GroupRole}"/>
+                  <Button Content="Удалить"
+                          FontSize="17"
+                          Foreground="DarkRed"
+                          IsVisible="{Binding !IsOwner}"
+                          Command="{Binding #MemberList.((vm:EditGroupViewModel)DataContext).DeleteMemberCommand}"
+                          CommandParameter="{Binding}"
+                          Grid.Column="2"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </Grid>
+  </Border>
+</UserControl>

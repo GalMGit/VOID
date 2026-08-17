@@ -1,0 +1,113 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:imageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource IconsDefault}"/>
+    </Style>
+
+    <Style Selector="Separator">
+        <Setter Property="Background" Value="{DynamicResource SeparatorForeground}"/>
+        <Setter Property="Margin" Value="10"/>
+    </Style>
+
+    <Style Selector="Image.avatarPaneImage">
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="100" />
+        <Setter Property="Stretch" Value="UniformToFill" />
+        <Setter Property="Margin" Value="0 -5 0 0 " />
+        <Setter Property="Clip">
+            <Setter.Value>
+                <EllipseGeometry RadiusX="40"
+                                 RadiusY="40"
+                                 Center="50,50" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="TextBlock.neuroTextBlock">
+        <Setter Property="FontWeight" Value="400" />
+        <Setter Property="FontSize" Value="35" />
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+        <Setter Property="Margin" Value="0 15 0 0" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect OffsetX="0"
+                                  OffsetY="0"
+                                  Color="{DynamicResource ShadowDrop}"
+                                  BlurRadius="30" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style Selector="StackPanel.leftStackPanel">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="7 20 0 20 " />
+    </Style>
+
+    <Style Selector="TextBlock.userNameTextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="13 10 0 10" />
+    </Style>
+    
+<Style Selector="Button.profileButton">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+
+    <Setter Property="CornerRadius" Value="10"/>
+
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+    <Setter Property="Height" Value="46"/>
+    <Setter Property="Padding" Value="12 0"/>
+    <Setter Property="Margin" Value="8 3"/>
+
+    <Setter Property="FontSize" Value="15"/>
+    <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+
+    <!-- Hover -->
+    <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackgroundPointerover}"/>
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}"/>
+    </Style>
+
+    <!-- Pressed -->
+    <Style Selector="^:pressed /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackgroundSelected}"/>
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}"/>
+    </Style>
+
+    <!-- Disabled -->
+    <Style Selector="^:disabled /template/ ContentPresenter">
+        <Setter Property="Opacity" Value="0.45"/>
+    </Style>
+</Style>
+
+<Style Selector="Button.profileButton PathIcon">
+    <Setter Property="Width" Value="21"/>
+    <Setter Property="Height" Value="21"/>
+    <Setter Property="Margin" Value="2 0 10 0"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconsDefault}"/>
+</Style>
+
+<Style Selector="Button.profileButton:pointerover PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+</Style>
+
+<Style Selector="TextBlock.menuButtonTextBlock">
+    <Setter Property="FontSize" Value="15"/>
+    <Setter Property="FontWeight" Value="400"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+</Style>
+
+</Styles>

@@ -1,0 +1,414 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Chat.CurrentChat"
+             xmlns:converters="using:VOID.APP.Converters"
+             xmlns:media="using:Iciclecreek.Avalonia.Controls.Media"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHostAvalonia"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:buttons="clr-namespace:VOID.APP.Components.Buttons"
+             xmlns:anim="https://github.com/whistyun/AnimatedImage.Avalonia"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             x:DataType="vm:CurrentChatViewModel"
+             x:Class="VOID.APP.Views.Pages.Chat.CurrentChat.CurrentChatView">
+    <UserControl.KeyBindings>
+        <KeyBinding
+            Command="{Binding ClearSelectionCommand}"
+            Gesture="Escape" />
+    </UserControl.KeyBindings>
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Chat/UserChatStyles.axaml" />
+    </UserControl.Styles>
+    
+    <UserControl.Resources>
+        <converters:HorizontalMessageConverter x:Key="HorizontalAlignmentConverter" />
+        <converters:OnlineStatusConverter x:Key="OnlineStatusConverter" />
+        <converters:LastSeenConverter x:Key="LastSeenConverter"/>
+    </UserControl.Resources>
+
+        <DockPanel LastChildFill="True">
+            <SplitView
+                x:Name="SplitChatInfo"
+                Classes="chatRightSplitView"
+                DockPanel.Dock="Right">
+            <SplitView.Pane>
+                <Border Classes="backChatsSplitBorder">
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Информация"
+                                       Classes="informationTextBlock" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <Image asyncImageLoader:ImageLoader.Source="{Binding CurrentChat.ImageUrl}"
+                                       Classes="interlocutorAvatarImage"/>
+                            </StackPanel>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="{Binding CurrentChat.ChatName}"
+                                           FontFamily="{StaticResource JetBrainsMono}"
+                                           Classes="interlocutorNameTextBlock" />
+                            </StackPanel>
+                        </StackPanel>
+                        <Separator Height="2" />
+                        <StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <PathIcon Data="{StaticResource info_regular}"/>
+                                    <TextBlock Text="{Binding CurrentChat.InterlocutorAboutMe}"
+                                               Classes="infoChatTextBlock">
+                                    </TextBlock>
+                                </StackPanel>
+                            <SelectableTextBlock
+                                Classes="interlocutorSelectableTextBlock"
+                                Text="{Binding CurrentChat.InterlocutorUsername, StringFormat='@{0}'}" />
+                            <TextBlock Text="Имя пользователя"
+                                       Classes="userNameTextBlock" />
+                            <Separator Height="2" />
+                            <TextBlock
+                                Text="{Binding CurrentChat.MessageCount,
+                         StringFormat='Сообщений в чате: {0}'}"
+                                HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </SplitView.Pane>
+        </SplitView>
+        <StackPanel DockPanel.Dock="Top">
+            <Border Classes="backTopHeaderBorder">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Grid RowDefinitions="*,*">
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <Button
+                                Classes="openProfileButton"
+                                Command="{Binding OpenProfileDialogCommand}"
+                                Content="{Binding CurrentChat.ChatName}" />
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="4"
+                                IsVisible="{Binding CurrentChat.InterlocutorIsTyping}">
+                                <TextBlock
+                                    Classes="isTypingTextBlock"
+                                    Text="печатает" />
+                                <Ellipse
+                                    Classes="typingDot"
+                                    Width="4"
+                                    Height="4" />
+                                <Ellipse
+                                    Classes="typingDot"
+                                    Width="4"
+                                    Height="4" />
+                                <Ellipse
+                                    Classes="typingDot"
+                                    Width="4"
+                                    Height="4" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1"
+                                    Classes="ellipseStack"
+                                    Orientation="Horizontal">
+                            <Ellipse Classes="onlineEllipseTrue"
+                                     IsVisible="{Binding CurrentChat.InterlocutorOnline}" />
+                            <TextBlock Classes="userChatOnlineText"
+                                       Text="{Binding CurrentChat.InterlocutorOnline, Converter={StaticResource OnlineStatusConverter}}" />
+                            <TextBlock
+                                Classes="interlocutorLastSeenTextBlock"
+                                Text="{Binding CurrentChat.InterlocutorLastSeen, Converter={StaticResource LastSeenConverter}}"
+                                IsVisible="{Binding !CurrentChat.InterlocutorOnline}" />
+                        </StackPanel>
+                    </Grid>
+                    <ToggleButton
+                        x:Name="ToggleButton"
+                        IsChecked="{Binding #SplitChatInfo.IsPaneOpen}"
+                        Classes="splitToggle"
+                        Grid.Column="1">
+                        <ToggleButton.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <PathIcon
+                                        IsVisible="{Binding !#ToggleButton.IsChecked}"
+                                        Data="{StaticResource pane_open_regular}" />
+                                    <PathIcon
+                                        IsVisible="{Binding #ToggleButton.IsChecked}"
+                                        Data="{StaticResource pane_close_regular}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ToggleButton.ContentTemplate>
+                    </ToggleButton>
+                </Grid>
+            </Border>
+        </StackPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <Border
+                    Margin="8,0,8,0"
+                    IsVisible="{Binding IsUploading}"
+                    CornerRadius="6"
+                    Padding="8">
+                    <StackPanel Spacing="4">
+                        <Grid ColumnDefinitions="*,Auto, Auto">
+                            <TextBlock
+                                Text="{Binding UploadFileName}"
+                                TextTrimming="CharacterEllipsis"
+                                FontSize="12" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding UploadProgress, StringFormat={}{0}%}"
+                                FontSize="12"
+                                Margin="8,0,0,0" />
+                            <Button Grid.Column="2"
+                                    Width="15"
+                                    Height="15"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="20"
+                                    FontSize="10"
+                                    Background="DarkRed"
+                                    Command="{Binding CancelUploadCommand}"
+                                    IsVisible="{Binding IsUploading}"/>
+                        </Grid>
+                        <ProgressBar
+                            Minimum="0"
+                            Maximum="100"
+                            Height="4"
+                            x:Name="Bar"
+                            Foreground="{DynamicResource TextDefault}"
+                            Value="{Binding UploadProgress}" />
+                        <TextBlock Text="Обработка сервера..."
+                                   FontSize="10"
+                                   IsVisible="{Binding IsUploaded}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        <Grid ColumnDefinitions="Auto,*, Auto, Auto, Auto"
+              DockPanel.Dock="Bottom">
+            <Button Width="35" 
+                    Classes="sendMediaButton"
+                    Command="{Binding SendMediaMessageCommand}">
+                    <PathIcon Data="{StaticResource attach_regular}"/>
+            </Button>
+            <TextBox Grid.Column="1"
+                     x:Name="TextBox"
+                     Watermark="Введите сообщение"
+                     Classes="enterMessageBox"
+                     Text="{Binding MessageText}">
+                <TextBox.KeyBindings>
+                    <KeyBinding
+                        Gesture="Enter"
+                        Command="{Binding SendOrUpdateMessageCommand}" />
+                    <KeyBinding
+                        Gesture="Escape"
+                        Command="{Binding CancelEditingCommand}"/>
+                </TextBox.KeyBindings>
+                <TextBox.InnerRightContent>
+                    <Button Content=">" IsVisible="False"/>
+                </TextBox.InnerRightContent>
+            </TextBox>
+            <Button
+                Grid.Column="2"
+                IsVisible="{Binding IsEditing}"
+                Content="Отменить" Command="{Binding CancelEditingCommand}"/>
+            <TextBlock Grid.Column="2" 
+                       IsVisible="{Binding IsRecording}"
+                       VerticalAlignment="Center"
+                       Margin="0 0 5 0"
+                       Text="{Binding RecordingDurationText}"/>
+            <Button
+                Grid.Column="3"
+                IsVisible="{Binding !IsRecording}"
+                Command="{Binding StartVoiceRecordingCommand}">
+                <PathIcon Data="{StaticResource mic_on_regular}"/>
+            </Button>
+            <Button
+                Grid.Column="3"
+                IsVisible="{Binding IsRecording}"
+                Command="{Binding StopVoiceRecordingCommand}">
+                <PathIcon Data="{StaticResource mic_off_regular}" 
+                          Foreground="DarkRed"/>
+            </Button>
+            <Button
+                Grid.Column="4"
+                IsVisible="{Binding !IsEditing}"
+                x:Name="ScrollButton"
+                Command="{Binding ScrollToBottomCommand}">
+                <PathIcon Data="{StaticResource arrow_down_regular}"/>
+            </Button>
+        </Grid>
+        <Border>
+            <ScrollViewer
+                x:Name="MessageScrollViewer"
+                VerticalScrollBarVisibility="Visible">
+                    <Grid>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsVisible="{Binding CurrentChat.IsCleared}"
+                            Text="История очищена"
+                            Classes="historyClearedTextBlock"/>
+                        <ListBox
+                        x:Name="MessageListBox"
+                        ItemsSource="{Binding Messages}"
+                        Classes="ListStyle">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    HorizontalAlignment="{Binding IsMine, Converter={StaticResource HorizontalAlignmentConverter}}"
+                                    Classes="itemMessage">
+                                    <Grid RowDefinitions="*" ColumnDefinitions="*,Auto">
+                                        <Grid ColumnDefinitions="*">
+                                            <SelectableTextBlock
+                                            Grid.Column="0"
+                                            Classes="messageText"
+                                            IsVisible="{Binding !IsMedia}"
+                                            Text="{Binding Text}" />
+                                        <Border IsVisible="{Binding IsImage}"
+                                                Classes="messageBorder"
+                                                Grid.Column="0">
+                                                <Image asyncImageLoader:ImageLoader.Source="{Binding ImageThumbnailUrl}"
+                                                       Width="200"
+                                                       Height="200"
+                                                       Cursor="Hand"
+                                                       x:Name="ImageMessage"
+                                                       PointerPressed="InputElement_OnPointerPressed">
+                                                </Image>
+                                        </Border>
+                                            <Border
+                                                Grid.Column="0"
+                                                Classes="messageBorder"
+                                                IsVisible="{Binding IsAudio}"
+                                                Padding="5">
+                                                <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Spacing="10">
+                                                    <Button
+                                                        Width="45"
+                                                        Height="45"
+                                                        CornerRadius="10"
+                                                        Content="▶"
+                                                        FontSize="20"
+                                                        IsVisible="{Binding !IsPlaying}"
+                                                        VerticalAlignment="Bottom"
+                                                        Classes="playstopButton"
+                                                        VerticalContentAlignment="Center"
+                                                        Command="{Binding #MessageListBox.((vm:CurrentChatViewModel)DataContext).PlayAudioCommand}"
+                                                        CommandParameter="{Binding}" />
+                                                    <Button
+                                                        Width="45"
+                                                        Height="45"
+                                                        CornerRadius="10"
+                                                        Content="⏹"
+                                                        Classes="playstopButton"
+                                                        FontSize="20"
+                                                        VerticalContentAlignment="Center"
+                                                        IsVisible="{Binding IsPlaying}"
+                                                        Command="{Binding #MessageListBox.((vm:CurrentChatViewModel)DataContext).StopAudioCommand}"
+                                                        CommandParameter="{Binding}"/>
+                                                    <StackPanel
+                                                        VerticalAlignment="Center">
+                                                        <TextBlock
+                                                            Text="Голосовое сообщение"
+                                                            Classes="messageText" />
+                                                        <TextBlock
+                                                            Text="WAV"
+                                                            Opacity="0.6"
+                                                            FontSize="11" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        <Border Grid.Column="0"
+                                                Classes="messageBorder"
+                                                IsVisible="{Binding IsGif}">
+                                            <Image
+                                                anim:ImageBehavior.AnimatedSource="{Binding GifUrl}"
+                                                Width="200"
+                                                Height="200"/>
+                                        </Border>
+                                        <Border IsVisible="{Binding IsVideo}"
+                                                Classes="messageBorder"
+                                                Grid.Column="0">
+                                            <Border Background="Transparent"
+                                                    Width="300"
+                                                    x:Name="VideoMessage"
+                                                    Cursor="Hand"
+                                                    PointerPressed="InputVideoElement_OnPointerPressed"
+                                                    Height="200">
+                                                <Grid>
+                                                    <Image asyncImageLoader:ImageLoader.Source="{Binding VideoThumbnailUrl}"
+                                                           Width="300"
+                                                           Height="200"
+                                                           Cursor="Hand">
+                                                    </Image>
+                                                    <PathIcon
+                                                        Data="{StaticResource video_regular}"
+                                                        Width="60"
+                                                        Height="60"/>
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                        <TextBlock
+                                            Text="(изменено)"
+                                            Classes="isEditedTextBlock"
+                                            IsVisible="{Binding IsEdited}"
+                                            Grid.Column="0"/>
+                                        </Grid>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Classes="messageTimeText"
+                                            Text="{Binding CreatedAt, StringFormat='HH:mm'}"
+                                            Grid.Column="1" />
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            Classes="checkMarkStackPanel"
+                                            VerticalAlignment="Bottom"
+                                            IsVisible="{Binding IsMine}">
+                                            <PathIcon
+                                                Height="12"
+                                                Width="12"
+                                                Data="{StaticResource checkmark_regular}"/>
+                                            <PathIcon
+                                                Height="12"
+                                                Width="12"
+                                                Classes="checkMarkTruePathIcon"
+                                                IsVisible="{Binding IsRead}"
+                                                Data="{StaticResource checkmark_regular}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border.ContextFlyout>
+                                        <Flyout>
+                                            <StackPanel>
+                                                <buttons:ButtonWithIcon
+                                                    MyIconData="{StaticResource delete_regular}"
+                                                    IsVisible="{Binding IsMine}"
+                                                    Command="{Binding #MessageListBox.((vm:CurrentChatViewModel)DataContext).DeleteMessageCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Text="Удалить" />
+                                                <buttons:ButtonWithIcon
+                                                    MyIconData="{StaticResource edit_regular}"
+                                                    IsVisible="{Binding IsMineAndNotMedia}"
+                                                    Command="{Binding #MessageListBox.((vm:CurrentChatViewModel)DataContext).StartEditMessageCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Text="Редактировать"/>
+                                                <buttons:ButtonWithIcon
+                                                    MyIconData="{StaticResource copy_regular}"
+                                                    Command="{Binding #MessageListBox.((vm:CurrentChatViewModel)DataContext).CopyMessageCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    IsVisible="{Binding !IsMedia}"
+                                                    Text="Копировать текст"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Border.ContextFlyout>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    </Grid>
+            </ScrollViewer>
+        </Border>
+    </DockPanel>
+</UserControl>

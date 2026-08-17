@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Auth.ConfirmEmail"
+             x:DataType="vm:ConfirmEmailViewModel"
+             x:Class="VOID.APP.Views.Pages.Auth.ConfirmEmail.ConfirmEmailView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Auth/AuthStyles.axaml"/>
+    </UserControl.Styles>
+    <StackPanel>
+        <StackPanel>
+            <TextBox
+                Watermark="Код подтверждения"
+                MaxLength="5"
+                Text="{Binding ConfirmationCode}"/>
+            <Grid ColumnDefinitions="*,*"
+                  Classes="buttonsGrid">
+                <Button Content="Подтвердить"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Classes="reg"
+                        Command="{Binding SendConfirmationCodeCommand}"/>
+                <Button Content="К регистрации"
+                        Grid.Column="1"
+                        Margin="5 0 0 0"
+                        HorizontalAlignment="Stretch"
+                        Classes="reg"
+                        Command="{Binding GoToRegisterCommand}"/>
+            </Grid>
+        </StackPanel>
+        <TextBlock
+            Classes="errorMessageText"
+            HorizontalAlignment="Center"
+            Text="{Binding StatusMessage}"/>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.14.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+        <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+        <PackageReference Include="WolverineFx" Version="6.20.0" />
+        <PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.20.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DI/" />
+      <Folder Include="Endpoints/Auth/" />
+      <Folder Include="Extensions/" />
+      <Folder Include="Filters/" />
+      <Folder Include="Middlewares/" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\shared\VOID.Shared.Contracts\VOID.Shared.Contracts.csproj" />
+      <ProjectReference Include="..\VOID.Application\VOID.Application.csproj" />
+      <ProjectReference Include="..\VOID.Infrastructure\VOID.Infrastructure.csproj" />
+      <ProjectReference Include="..\VOID.Persistence\VOID.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+</Project>

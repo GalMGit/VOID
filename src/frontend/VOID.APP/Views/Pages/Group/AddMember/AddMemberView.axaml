@@ -1,0 +1,113 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Group.AddMember"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:DataType="vm:AddMemberViewModel"
+             x:Class="VOID.APP.Views.Pages.Group.AddMember.AddMemberView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Modals/AddMember/AddMemberStyles.axaml"/>
+        <StyleInclude Source="/Styles/Modals/ModalStyles.axaml"/>
+    </UserControl.Styles>
+
+    <Border Width="400"
+            MinHeight="300"
+            CornerRadius="10"
+            Classes="modalBorder"
+            MaxHeight="600">
+        <Grid RowDefinitions="Auto, Auto, *, *, Auto">
+            <TextBlock
+                HorizontalAlignment="Center"
+                Classes="searchTextBlock"
+                Grid.Row="0"
+                Text="Поиск" />
+            <TextBox
+                Grid.Row="1"
+                Text="{Binding SearchText}"
+                Classes="searchTextBox"
+                Watermark="Найти пользователя">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" 
+                                Command="{Binding SearchUsersCommand}"/>
+                </TextBox.KeyBindings>
+            </TextBox>
+            <ScrollViewer Grid.Row="2" MaxHeight="250">
+                <ItemsControl 
+                    ItemsSource="{Binding SearchUsers}"
+                    x:Name="SearchUsersItems">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Classes="searchUserCardBorder">
+                                <Grid ColumnDefinitions="Auto, Auto, *">
+                                    <Image asyncImageLoader:ImageLoader.Source="{Binding AvatarUrl}"
+                                           Width="60"
+                                           Grid.Column="0"
+                                           Height="60"
+                                           Classes="avatar"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Text="{Binding Username}"
+                                        Classes="usernameTextBlock"/>
+                                    <Button Content="+"
+                                            Classes="memberListButton"
+                                            Width="30"
+                                            HorizontalContentAlignment="Center"
+                                            Height="30"
+                                            Grid.Column="2"
+                                            Command="{Binding #SearchUsersItems.((vm:AddMemberViewModel)DataContext).AddUserToMembersForAddCommand}"
+                                            CommandParameter="{Binding}"
+                                            HorizontalAlignment="Right"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Grid Grid.Row="3"
+                  RowDefinitions="Auto, *">
+                <TextBlock
+                    Grid.Row="0"
+                    Classes="addedMembersTextBlock"
+                    Text="Добавленные"
+                    IsVisible="{Binding UsersForAdd.Count}"/>
+                <ScrollViewer Grid.Row="1"
+                              MaxHeight="250">
+                    <ItemsControl
+                        x:Name="UsersForAddItems"
+                        ItemsSource="{Binding UsersForAdd}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Classes="searchUserCardBorder">
+                                    <Grid ColumnDefinitions="Auto, Auto, *">
+                                        <Image asyncImageLoader:ImageLoader.Source="{Binding AvatarUrl}"
+                                               Width="60"
+                                               Grid.Column="0"
+                                               Height="60"
+                                               Classes="avatar"/>
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="{Binding Username}"
+                                            Classes="usernameTextBlock"/>
+                                        <Button Content="-"
+                                                Width="30"
+                                                Classes="memberListButton"
+                                                HorizontalContentAlignment="Center"
+                                                Height="30"
+                                                Grid.Column="2"
+                                                Command="{Binding #UsersForAddItems.((vm:AddMemberViewModel)DataContext).RemoveUserFromMembersForAddCommand}"
+                                                CommandParameter="{Binding}"
+                                                HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+            <Button Grid.Row="4"
+                    HorizontalAlignment="Center"
+                    IsVisible="{Binding UsersForAdd.Count}"
+                    Content="Добавить пользователей"
+                    Command="{Binding AddMembersCommand}"/>
+        </Grid>
+    </Border>
+</UserControl>

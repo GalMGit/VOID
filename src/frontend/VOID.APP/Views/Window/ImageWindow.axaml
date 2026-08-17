@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="VOID.APP.Views.Window.ImageWindow"
+        xmlns:vm="using:VOID.APP.ViewModels.Modals.Image"
+        x:DataType="vm:ImageWindowViewModel"
+        xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        Width="1200" 
+        xmlns:paz="using:Avalonia.Controls.PanAndZoom"
+        Title="Image Viewer"
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        Background="{DynamicResource BackgroundDialog}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <paz:ZoomBorder ZoomSpeed="1.2" Focusable="True"
+                        Stretch="Uniform"
+                        EnablePan="True"
+                        EnableZoom="True"
+                        PanButton="Left"
+                        Background="Transparent"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Image asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}"
+                   x:Name="ImageFull">
+                <Image.ContextFlyout>
+                    <Flyout>
+                        <StackPanel>
+                            <Button Command="{Binding DownloadImageCommand}"
+                                    Content="Скачать"
+                                    CommandParameter="{Binding ImageUrl}"/>
+                        </StackPanel>
+                    </Flyout>
+                </Image.ContextFlyout>
+            </Image>
+        </paz:ZoomBorder>
+    </ScrollViewer>
+</Window>

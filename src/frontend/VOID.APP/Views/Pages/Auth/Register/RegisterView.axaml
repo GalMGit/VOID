@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Auth.Register"
+             x:DataType="vm:RegisterViewModel"
+             x:Class="VOID.APP.Views.Pages.Auth.Register.RegisterView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Auth/AuthStyles.axaml"/>
+    </UserControl.Styles>
+    <StackPanel>
+        <StackPanel>
+            <TextBox 
+                Watermark="Почта"
+                MaxLength="100"
+                Text="{Binding Email}"/>
+            <TextBox 
+                Watermark="Имя пользователя"
+                MaxLength="15"
+                Text="{Binding Username}"/>
+            <TextBox 
+                MaxLength="40"
+                Watermark="Пароль"
+                Text="{Binding Password}"
+                x:Name="Password"
+                RevealPassword="{Binding ShowPassword}"
+                LostFocus="Password_OnLostFocus"
+                PasswordChar="*">
+                <TextBox.InnerRightContent>
+                    <ToggleButton x:Name="PasswordToggleButton" 
+                                  IsChecked="{Binding ShowPassword}">
+                        <ToggleButton.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <PathIcon 
+                                        IsVisible="{Binding !#PasswordToggleButton.IsChecked}"
+                                        Data="{StaticResource eye_show_regular}"/>
+                                    <PathIcon 
+                                        IsVisible="{Binding #PasswordToggleButton.IsChecked}"
+                                        Data="{StaticResource eye_hide_regular}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ToggleButton.ContentTemplate>
+                    </ToggleButton>
+                </TextBox.InnerRightContent>
+            </TextBox>
+            <TextBox 
+                MaxLength="40"
+                Watermark="Подтвердите пароль"
+                Text="{Binding ConfirmPassword}" 
+                x:Name="ConfirmPassword"
+                RevealPassword="{Binding ShowConfirmPassword}"
+                LostFocus="ConfirmPassword_OnLostFocus"
+                PasswordChar="*">
+                <TextBox.InnerRightContent>
+                    <ToggleButton x:Name="ConfirmToggleButton" 
+                                  IsChecked="{Binding ShowConfirmPassword}">
+                        <ToggleButton.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <PathIcon 
+                                        IsVisible="{Binding !#ConfirmToggleButton.IsChecked}"
+                                        Data="{StaticResource eye_show_regular}"/>
+                                    <PathIcon 
+                                        IsVisible="{Binding #ConfirmToggleButton.IsChecked}"
+                                        Data="{StaticResource eye_hide_regular}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ToggleButton.ContentTemplate>
+                    </ToggleButton>
+                </TextBox.InnerRightContent>
+            </TextBox>
+            <Grid ColumnDefinitions="*,*" 
+                  Classes="buttonsGrid">
+                <Button Content="Зарегистрировать" 
+                        Classes="reg"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding RegisterCommand}"/>
+                <Button Content="К входу"
+                        Classes="in"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding GoToLoginCommand}"/>
+            </Grid>
+        </StackPanel>
+        <TextBlock Classes="errorMessageText"
+                   HorizontalAlignment="Center"
+                   Text="{Binding StatusMessage}"/>
+    </StackPanel>
+</UserControl>

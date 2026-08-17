@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:VOID.APP.ViewModels.Modals.Video"
+        xmlns:media="using:Iciclecreek.Avalonia.Controls.Media"
+        x:Class="VOID.APP.Views.Window.VideoWindow"
+        Title="Video Player"
+        x:DataType="vm:VideoWindowViewModel"
+        Width="1200" 
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        Background="{DynamicResource BackgroundDialog}">
+    
+    <Window.Styles>
+        <StyleInclude Source="/Styles/Windows/Video/VideoStyles.axaml"/>
+    </Window.Styles>
+    
+    <Grid RowDefinitions="*, Auto">
+        <media:VideoView 
+            Grid.Row="0"
+            x:Name="PlayerView"
+            Source="{Binding VideoUrl}"/>
+        <Grid Grid.Row="1" 
+              Classes="mediaGrid"
+              ColumnDefinitions="*,Auto">
+            <media:MediaPlayerControls 
+                Grid.Column="0"
+                DataContext="{Binding #PlayerView.MediaPlayerViewModel}"/>
+            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        Classes="controlsStackPanel"
+                        VerticalAlignment="Center">
+                <TextBlock Text="🔊" 
+                           Classes="volumeTextBlock"
+                           VerticalAlignment="Center" />
+                <Slider 
+                    Minimum="0" 
+                    Maximum="100" 
+                    Value="{Binding #PlayerView.MediaPlayerViewModel.Volume, Mode=TwoWay}"
+                    Width="100"
+                    VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding #PlayerView.MediaPlayerViewModel.Volume, StringFormat='{}{0}%'}" 
+                           Classes="volumeControlTextBlock"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Email/Templates/Register.html"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VOID.Application\VOID.Application.csproj" />
+      <PackageReference Include="AWSSDK.S3" Version="3.7.414.4" />
+        <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+        <PackageReference Include="FFMpegCore" Version="5.4.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
+        <PackageReference Include="MailKit" Version="4.17.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.7" />
+        <PackageReference Include="Mime-Detective" Version="25.8.1" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
+        <PackageReference Include="StackExchange.Redis" Version="2.13.17" />
+    </ItemGroup>
+
+</Project>

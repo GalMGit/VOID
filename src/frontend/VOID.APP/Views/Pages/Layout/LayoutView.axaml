@@ -1,0 +1,180 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Layout"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:DataType="vm:LayoutViewModel"
+             Background="{DynamicResource UserControlBackground}"
+             x:Class="VOID.APP.Views.Pages.Layout.LayoutView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Layout/LayoutStyles.axaml"/>
+        <StyleInclude Source="/Styles/Layout/PaneStyles.axaml"/>
+        <StyleInclude Source="/Styles/Chat/ChatStyles.axaml"/>
+    </UserControl.Styles>
+
+    <dialogHost:DialogHost
+        Identifier="Dialog"
+        x:Name="Dialog"
+        Background="Transparent"
+        BlurBackground="True"
+        ClipToBounds="False"
+        BlurBackgroundRadius="10"
+        DialogMargin="-5"
+        CloseOnClickAway="True"
+        OverlayBackground="#80111111">
+           <SplitView
+               Classes="mainSplitView"
+               x:Name="SplitView">
+            <SplitView.Pane>
+                <Border Classes="backPaneBorder">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*, Auto">
+                        <Grid Grid.Row="6"
+                              HorizontalAlignment="Right"
+                              ColumnDefinitions="Auto, Auto, Auto">
+                            <ToggleButton
+                                Grid.Column="1"
+                                Classes="themeToggle"
+                                Command="{Binding SwitchThemeCommand}"
+                                x:Name="ToggleButton"
+                                IsChecked="{Binding IsThemeChecked}">
+                                <ToggleButton.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <PathIcon
+                                                IsVisible="{Binding #ToggleButton.IsChecked}"
+                                                Data="{StaticResource weather_moon_regular}" />
+                                            <PathIcon
+                                                IsVisible="{Binding !#ToggleButton.IsChecked}"
+                                                Data="{StaticResource weather_sunny_regular}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ToggleButton.ContentTemplate>
+                            </ToggleButton>
+                        </Grid>
+                        <Grid Grid.Row="1"
+                              RowDefinitions="Auto,Auto"
+                              HorizontalAlignment="Left">
+                            <Border 
+                                Width="80" 
+                                Margin="5"
+                                Height="80" 
+                                CornerRadius="100" 
+                                Background="{DynamicResource BackChatContentBorder}">
+                                <Image asyncImageLoader:ImageLoader.Source="{Binding AvatarImage}"
+                                       Classes="avatarPaneImage"/>
+                            </Border>
+                            <TextBlock
+                                Grid.Row="1"
+                                Classes="userNameTextBlock"
+                                Text="{Binding CurrentName}"/>
+                        </Grid>
+                        <Separator Grid.Row="2"/>
+                        <Button Grid.Row="3"
+                                Classes="profileButton"
+                                Command="{Binding OpenProfileDialogCommand}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <PathIcon
+                                            Data="{StaticResource person_board_regular}"/>
+                                        <TextBlock
+                                            Classes="menuButtonTextBlock"
+                                            Text="Профиль"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <Button Grid.Row="4"
+                                Classes="profileButton"
+                                Command="{Binding OpenCreateGroupDialogCommand}">
+                                <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <PathIcon Data="{StaticResource people_community_regular}"/>
+                                        <TextBlock
+                                            Classes="menuButtonTextBlock"
+                                            Text="Создать группу"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </Grid>
+                </Border>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <DockPanel>
+                    <Grid ColumnDefinitions="300,*">
+                        <Border Classes="splitViewContentBackBorder"
+                                Grid.Column="0">
+                            <Grid RowDefinitions="Auto,*"
+                                  Classes="listChatsGrid">
+                                <Grid ColumnDefinitions="Auto, *"
+                                      Grid.Row="0">
+                                <ToggleButton Classes="burgerToggle"
+                                              IsChecked="{Binding #SplitView.IsPaneOpen}">
+                                    <ToggleButton.ContentTemplate>
+                                        <DataTemplate>
+                                            <PathIcon
+                                                Data="{StaticResource line_horizontal}"
+                                                Classes="toggleIcon" />
+                                        </DataTemplate>
+                                    </ToggleButton.ContentTemplate>
+                                </ToggleButton>
+                                <TextBox
+                                    Grid.Column="1"
+                                    Watermark="Поиск"
+                                    Text="{Binding SearchText}">
+                                    <TextBox.KeyBindings>
+                                        <KeyBinding Gesture="Enter"
+                                                    Command="{Binding SearchCommand}"/>
+                                    </TextBox.KeyBindings>
+                                </TextBox>
+                            </Grid>
+                            <Border
+                                Classes="listChatsBackBorder"
+                                Grid.Row="1">
+                                <Grid RowDefinitions="Auto, *">
+                                    <ListBox
+                                        SelectedItem="{Binding SelectedListItem}"
+                                        ItemsSource="{Binding ListPages}"
+                                        Classes="pagesList"
+                                        SelectionMode="Single"
+                                        Grid.Row="0">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="2"/>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border HorizontalAlignment="Center">
+                                                    <TextBlock
+                                                        Classes="listTitlePagesTextBlock"
+                                                        Text="{Binding Title}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <ContentControl
+                                        Grid.Row="1"
+                                        Content="{Binding CurrentListContent}"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        </Border>
+                        <Border Grid.Column="1"
+                              Classes="contentChatBackBorder">
+                            <Grid>
+                                <ContentControl
+                                    Content="{Binding CurrentChatContent}"/>
+                                <TextBlock Text="Выберите, кому хотели бы написать"
+                                           Classes="exitFromChatTextBlock"
+                                           IsVisible="{Binding !CurrentChatContent, FallbackValue=False}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DockPanel>
+            </SplitView.Content>
+        </SplitView>
+       </dialogHost:DialogHost>
+</UserControl>

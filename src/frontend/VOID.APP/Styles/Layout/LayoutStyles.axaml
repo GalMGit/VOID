@@ -1,0 +1,152 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+    </Style>
+
+    <Style Selector="PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource IconsDefault}"/>
+    </Style>
+    <Style Selector="Button">
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+    </Style>
+    <Style Selector="ListBox.chatsList ListBoxItem">
+        <Setter Property="Padding"
+                Value="10" />
+        <Setter Property="FontSize"
+                Value="15" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}" />
+        <Setter Property="CornerRadius"
+                Value="10" />
+        <Setter Property="Height"
+                Value="60" />
+        <Setter Property="Margin"
+                Value="7, 0" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="ListBox.chatsList">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="Margin" Value="0 20 0  20" />
+    </Style>
+
+    <Style Selector="ListBox.chatsList ListBoxItem /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackground}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}" />
+    </Style>
+    <Style Selector="ListBox.chatsList ListBoxItem:selected /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackgroundSelected}"/>
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}" />
+    </Style>
+    <Style Selector="ListBox.chatsList ListBoxItem:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackgroundPointerover}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}" />
+    </Style>
+
+    <Style Selector="ListBox.pagesList">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="ListBox.pagesList ListBoxItem /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+    </Style>
+
+    <Style Selector="ListBox.pagesList ListBoxItem:selected /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackgroundSelected}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}" />
+    </Style>
+    <Style Selector="ListBox.pagesList ListBoxItem:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"
+                Value="{DynamicResource ListBoxItemBackgroundPointerover}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextDefault}" />
+    </Style>
+
+    <Style Selector="Grid.leftGrid">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ContentControl.listPageContentControl">
+        <Setter Property="ZIndex" Value="-1" />
+        <Setter Property="Margin" Value="-10 0 0 0" />
+    </Style>
+
+
+    <Style Selector="ToggleButton.burgerToggle">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Margin" Value="5 0 5 0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </Style>
+
+    <Style Selector="ToggleButton.themeToggle">
+        <Setter Property="Background" Value="Transparent"/>
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </Style>
+
+    <Style Selector="PathIcon.toggleIcon">
+        <Setter Property="Margin" Value="0 6 0 0"/>
+    </Style>
+
+    <Style Selector="TextBlock.listTitlePagesTextBlock">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <Style Selector="Border.backPaneBorder">
+        <Setter Property="CornerRadius" Value="0 12 12 0" />
+        <Setter Property="Background" Value="{DynamicResource BackPaneBorder}" />
+    </Style>
+
+    <Style Selector="SplitView.mainSplitView">
+        <Setter Property="OpenPaneLength" Value="300" />
+        <Setter Property="IsPaneOpen" Value="False" />
+        <Setter Property="DisplayMode" Value="Overlay" />
+        <Setter Property="PaneBackground" Value="Transparent" />
+    </Style>
+
+    <Style Selector="TextBlock.themeTextBlock">
+        <Setter Property="FontSize" Value="17"/>
+    </Style>
+
+    <Style Selector="Border.backChatContentBorder">
+        <Setter Property="Background" Value="{DynamicResource BackChatContentBorder}" />
+    </Style>
+
+</Styles>

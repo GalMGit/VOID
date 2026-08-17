@@ -1,0 +1,60 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Auth.Login"
+             x:DataType="vm:LoginViewModel"
+             x:Class="VOID.APP.Views.Pages.Auth.Login.LoginView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Auth/AuthStyles.axaml"/>
+    </UserControl.Styles>
+    <StackPanel>
+        <StackPanel>
+            <TextBox 
+                Watermark="Имя пользователя"
+                MaxLength="15"
+                Text="{Binding Username}"/>
+            <TextBox 
+                MaxLength="40"
+                Watermark="Пароль"
+                x:Name="Password"
+                RevealPassword="{Binding ShowPassword}"
+                Text="{Binding Password}"
+                LostFocus="Password_OnLostFocus"
+                PasswordChar="*">
+                <TextBox.InnerRightContent>
+                    <ToggleButton x:Name="ToggleButton" 
+                                  IsChecked="{Binding ShowPassword}">
+                        <ToggleButton.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <PathIcon 
+                                        IsVisible="{Binding !#ToggleButton.IsChecked}"
+                                        Data="{StaticResource eye_show_regular}"/>
+                                    <PathIcon 
+                                        IsVisible="{Binding #ToggleButton.IsChecked}"
+                                        Data="{StaticResource eye_hide_regular}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ToggleButton.ContentTemplate>
+                    </ToggleButton>
+                </TextBox.InnerRightContent>
+            </TextBox>
+            <Grid ColumnDefinitions="*,*" 
+                  Classes="buttonsGrid">
+                <Button Content="Войти"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Classes="reg"
+                        Command="{Binding LoginCommand}"/>
+                <Button Content="К регистрации"
+                        Classes="in"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding GoToRegisterCommand}"/>
+            </Grid>
+        </StackPanel>
+        <TextBlock 
+            Classes="errorMessageText"
+            HorizontalAlignment="Center"
+            Text="{Binding StatusMessage}"/>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Group.ListGroups"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:buttons="using:VOID.APP.Components.Buttons"
+             x:DataType="vm:ListGroupsViewModel"
+             x:Class="VOID.APP.Views.Pages.Group.ListGroups.ListGroupsView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Chat/ChatStyles.axaml"/>
+    </UserControl.Styles>
+
+    <ScrollViewer
+        x:Name="ChatsScrollViewer"
+        VerticalScrollBarVisibility="Hidden"
+        AllowAutoHide="True">
+        <ListBox ItemsSource="{Binding Groups}"
+                 SelectedItem="{Binding SelectedGroupItem}"
+                 x:Name="ListBox"
+                 Classes="chatsList"
+                 SelectionMode="Single">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Classes="listItemCardBorder">
+                        <Grid ColumnDefinitions="70,Auto,*,Auto"
+                              RowDefinitions="*,*">
+                            <Grid
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                ColumnDefinitions="*,*">
+                                <Border Classes="avatarBorder"
+                                        Width="50" Height="50">
+                                    <Grid>
+                                        <TextBlock Text="{Binding Character}"
+                                                   Classes="avatarCharTextBlock"
+                                                   IsVisible="{Binding ImageUrl, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        <Image asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}"
+                                               Width="60"
+                                               IsVisible="{Binding ImageUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty }}"
+                                               Height="60"
+                                               Classes="avatar"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <TextBlock
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Text="{Binding ChatName}"
+                                Classes="chatName" />
+                        </Grid>
+                        <Border.ContextFlyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <buttons:ButtonWithIcon
+                                        Text="Выйти из группы"
+                                        IsVisible="{Binding !IsOwner}"
+                                        MyIconData="{StaticResource sign_out_regular}"
+                                        Command="{Binding #ListBox.((vm:ListGroupsViewModel)DataContext).LeaveFromGroupCommand}"
+                                        CommandParameter="{Binding}" />
+                                    <buttons:ButtonWithIcon
+                                        Text="Удалить группу"
+                                        IsVisible="{Binding IsOwner}"
+                                        MyIconData="{StaticResource delete_regular}"
+                                        Command="{Binding #ListBox.((vm:ListGroupsViewModel)DataContext).DeleteGroupCommand}"
+                                        CommandParameter="{Binding}" />
+                                </StackPanel>
+                            </Flyout>
+                        </Border.ContextFlyout>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </ScrollViewer>
+</UserControl>

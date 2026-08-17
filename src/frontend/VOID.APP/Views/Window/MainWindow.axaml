@@ -1,0 +1,10 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:VOID.APP.ViewModels.Window"
+        x:Class="VOID.APP.Views.Window.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Background="{DynamicResource UserControlBackground}"
+        Icon="/Assets/void.ico"
+        Title="VOID">
+    <ContentControl Content="{Binding CurrentPage}"/>
+</Window>

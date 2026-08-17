@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Layout.Search"
+             x:DataType="vm:SearchListViewModel"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:Class="VOID.APP.Views.Pages.Layout.Search.SearchListView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Chat/ChatStyles.axaml"/>
+        <StyleInclude Source="/Styles/Layout/SearchStyles.axaml"/>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, *">
+        <TextBlock
+            Classes="searchTextBlock"
+            HorizontalAlignment="Center"
+            Text="Поиск"
+            Grid.Row="0"/>
+        <ScrollViewer Grid.Row="1">
+            <ListBox ItemsSource="{Binding SearchResults}"
+                     SelectedItem="{Binding SelectedUser}"
+                     Classes="searchList"
+                     SelectionMode="Single">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Classes="avatarBorder"
+                                    Width="50"
+                                    Height="50">
+                                <Image asyncImageLoader:ImageLoader.Source="{Binding AvatarUrl}"
+                                       Width="60"
+                                       Height="60"
+                                       Classes="avatar"/>
+                            </Border>
+                            <TextBlock
+                                Classes="searchUsernameTextBlock"
+                                Text="{Binding Username}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

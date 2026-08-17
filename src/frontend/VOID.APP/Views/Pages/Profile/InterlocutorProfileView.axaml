@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Profile"
+             x:DataType="vm:InterlocutorProfileViewModel"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:Class="VOID.APP.Views.Pages.Profile.InterlocutorProfileView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Profile/ProfileStyles.axaml"/>
+        <StyleInclude Source="/Styles/Modals/ModalStyles.axaml"/>
+    </UserControl.Styles>
+    <Border
+        Width="350"
+        CornerRadius="10"
+        Classes="modalBorder"
+        Height="500">
+        <Grid RowDefinitions="Auto,140,Auto,*">
+            <Grid ColumnDefinitions="Auto,Auto,*" 
+                  Grid.Row="0">
+            </Grid>
+            <Border Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Classes="avatarBorder">
+                    <asyncImageLoader:AdvancedImage
+                        Source="{Binding Chat.ImageUrl}"
+                        Width="130"
+                        Height="130"
+                        Classes="avatarProfileImage">
+                    </asyncImageLoader:AdvancedImage>
+            </Border>
+            <Separator Grid.Row="2"
+                       Height="2"
+                       HorizontalAlignment="Stretch"/>
+            <StackPanel
+                Classes="profileInfoStackPanel"
+                Grid.Row="3"
+                HorizontalAlignment="Left">
+                <SelectableTextBlock
+                    Classes="usernameSelectableTextBlock"
+                    Text="{Binding Chat.InterlocutorUsername, StringFormat='@{0}'}"/>
+                <TextBlock Text="Имя пользователя"
+                           Classes="usernameTextBlock"/>
+                <TextBlock Text="О себе:"
+                           Classes="aboutMeLabelTextBlock"/>
+                <TextBlock Text="{Binding Chat.InterlocutorAboutMe}"
+                           Classes="aboutMeTextBlock"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

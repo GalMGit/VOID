@@ -1,0 +1,141 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Chat.ListChats"
+             xmlns:buttons="clr-namespace:VOID.APP.Components.Buttons"
+             x:DataType="vm:ListChatsViewModel"
+             x:Class="VOID.APP.Views.Pages.Chat.ListChats.ListChatsView">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Chat/ChatStyles.axaml"/>
+    </UserControl.Styles>
+
+    <UserControl.KeyBindings>
+        <KeyBinding
+            Command="{Binding ClearSelectionCommand}"
+            Gesture="Escape"/>
+    </UserControl.KeyBindings>
+    <ScrollViewer
+        x:Name="ChatsScrollViewer"
+        VerticalScrollBarVisibility="Hidden"
+        AllowAutoHide="True">
+        <ListBox ItemsSource="{Binding Chats}"
+                 SelectedItem="{Binding SelectedChatItem}"
+                 x:Name="ListBox"
+                 Classes="chatsList"
+                 SelectionMode="Single">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                   <StackPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Classes="listItemCardBorder">
+                        <Grid ColumnDefinitions="70,Auto,*,Auto"
+                              RowDefinitions="*,*">
+                            <Grid
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                ColumnDefinitions="*,*">
+                                <Border Classes="avatarBorder"
+                                        Width="50" Height="50">
+                                    <Grid>
+                                        <TextBlock Text="{Binding Character}"
+                                                   Classes="avatarCharTextBlock"
+                                                   IsVisible="{Binding ImageUrl, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        <Image asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}"
+                                               Width="60"
+                                               IsVisible="{Binding ImageUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty }}"
+                                               Height="60"
+                                               Classes="avatar"/>
+                                    </Grid>
+                                </Border>
+                                <Ellipse
+                                    Grid.Column="1"
+                                    Classes="onlineEllipseFalse"
+                                    IsVisible="{Binding !InterlocutorOnline}" />
+                                <Ellipse
+                                    Grid.Column="1"
+                                    Classes="onlineEllipseTrue"
+                                    IsVisible="{Binding InterlocutorOnline}" />
+                            </Grid>
+                            <TextBlock
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Text="{Binding ChatName}"
+                                Classes="chatName" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                MaxWidth="220"
+                                Text="{Binding LastMessage}"
+                                Classes="lastMessageTextBlock"
+                                IsVisible="{Binding !InterlocutorTyping}"/>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                Orientation="Horizontal"
+                                Spacing="4"
+                                IsVisible="{Binding InterlocutorTyping}">
+                                <TextBlock
+                                    Classes="isTypingTextBlock"
+                                    Text="печатает" />
+                                <Ellipse
+                                    Classes="typingDot"
+                                    Width="4"
+                                    Height="4" />
+                                <Ellipse
+                                    Classes="typingDot"
+                                    Width="4"
+                                    Height="4" />
+                                <Ellipse
+                                    Classes="typingDot"
+                                    Width="4"
+                                    Height="4" />
+                            </StackPanel>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Classes="lastMessageDateTextBlock"
+                                IsVisible="{Binding LastMessage}"
+                                Text="{Binding LastMessageDate, StringFormat='HH:mm'}" />
+                            <Border 
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                CornerRadius="20"
+                                Background="{DynamicResource BackPaneBorder}"
+                                IsVisible="{Binding UnreadCount}">
+                                <TextBlock Text="{Binding UnreadCount}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="15"/>
+                            </Border>
+                        </Grid>
+                        <Border.ContextFlyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <buttons:ButtonWithIcon
+                                        Text="Удалить чат"
+                                        MyIconData="{StaticResource delete_regular}"
+                                        Command="{Binding #ListBox.((vm:ListChatsViewModel)DataContext).HardDeleteChatCommand}"
+                                        CommandParameter="{Binding}" />
+                                    <buttons:ButtonWithIcon
+                                        Text="Очистить"
+                                        MyIconData="{StaticResource broom_regular}"
+                                        Command="{Binding #ListBox.((vm:ListChatsViewModel)DataContext).ClearChatCommand}"
+                                        CommandParameter="{Binding}" />
+                                </StackPanel>
+                            </Flyout>
+                        </Border.ContextFlyout>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </ScrollViewer>
+</UserControl>

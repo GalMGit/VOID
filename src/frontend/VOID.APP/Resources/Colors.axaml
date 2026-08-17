@@ -1,0 +1,65 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="ShadowDrop">Silver</Color>
+            <SolidColorBrush x:Key="TextDefault" Color="Silver"/>
+            <SolidColorBrush x:Key="IconsDefault" Color="Silver"/>
+            <SolidColorBrush x:Key="ErrorMessageForeground" Color="Khaki"/>
+            <SolidColorBrush x:Key="ButtonBackground" Color="#171717"/>
+            <SolidColorBrush x:Key="ButtonPressedBackground" Color="#151515"/>
+            <SolidColorBrush x:Key="MainBackground" Color="#121212"/>
+            <SolidColorBrush x:Key="TextBoxMain" Color="#171717"/>
+            <SolidColorBrush x:Key="TextBoxFocus" Color="#211F1F"/>
+            <SolidColorBrush x:Key="TextBoxPointerover" Color="#1a1a1a"/>
+            <SolidColorBrush x:Key="BackTopHeaderBorder" Color="#151515"/>
+            <SolidColorBrush x:Key="ListBoxItemBackground" Color="#181818"/>
+            <SolidColorBrush x:Key="MessageItemBackground" Color="#181818"/>
+            <SolidColorBrush x:Key="ListBoxItemBackgroundSelected" Color="#151515"/>
+            <SolidColorBrush x:Key="ListBoxItemBackgroundPointerover" Color="#1f1f1f"/>
+            <SolidColorBrush x:Key="UserControlBackground" Color="#131313"/>
+            <SolidColorBrush x:Key="BackChatContentBorder" Color="#111111"/>
+            <SolidColorBrush x:Key="BackChatContentBorderBrush" Color="#161616"/>
+            <SolidColorBrush x:Key="BackPaneBorder" Color="#131313"/>
+            <SolidColorBrush x:Key="ListChatsBackBorder" Color="#111111"/>
+            <SolidColorBrush x:Key="BackgroundDialog" Color="#141414"/>
+            <SolidColorBrush x:Key="OnlineEclipseBackground" Color="GreenYellow"/>
+            <SolidColorBrush x:Key="VideoPreviewBackground" Color="#1f1f1f"/>
+            <SolidColorBrush x:Key="EditMessageForeground" Color="#ACCEC7"/>
+            <SolidColorBrush x:Key="SeparatorForeground" Color="#171717"/>
+             <SolidColorBrush x:Key="AvatarBorderBackground" Color="#262626"/>
+            <SolidColorBrush x:Key="SelectionColorBrush" Color="DodgerBlue"/>
+            <SolidColorBrush x:Key="AuthorGroupMessageForeground" Color="#92A2C2"/>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="ShadowDrop">#191919</Color>
+            <SolidColorBrush x:Key="TextDefault" Color="#161616"/>
+            <SolidColorBrush x:Key="IconsDefault" Color="#636363"/>
+            <SolidColorBrush x:Key="ButtonBackground" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="MainBackground" Color="#F8F8F8"/>
+            <SolidColorBrush x:Key="ErrorMessageForeground" Color="#561312"/>
+            <SolidColorBrush x:Key="TextBoxMain" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="TextBoxFocus" Color="#D8D8D8"/>
+            <SolidColorBrush x:Key="TextBoxPointerover" Color="LightGray"/>
+            <SolidColorBrush x:Key="BackTopHeaderBorder" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="MessageItemBackground" Color="#E9E9E9"/>
+            <SolidColorBrush x:Key="ListBoxItemBackground" Color="#BEBEBE"/>
+            <SolidColorBrush x:Key="ListBoxItemBackgroundSelected" Color="#E1E1E1"/>
+            <SolidColorBrush x:Key="ListBoxItemBackgroundPointerover" Color="#D6D6D6"/>
+            <SolidColorBrush x:Key="UserControlBackground" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="BackChatContentBorder" Color="#F2F2F2"/>
+            <SolidColorBrush x:Key="BackChatContentBorderBrush" Color="#DDDDDD"/>
+            <SolidColorBrush x:Key="BackPaneBorder" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="ListChatsBackBorder" Color="#F2F2F2"/>
+            <SolidColorBrush x:Key="BackgroundDialog" Color="#E3E3E3"/>
+            <SolidColorBrush x:Key="OnlineEclipseBackground" Color="Green"/>
+            <SolidColorBrush x:Key="VideoPreviewBackground" Color="#9D9D9D"/>
+            <SolidColorBrush x:Key="EditMessageForeground" Color="#4B6A63"/>
+            <SolidColorBrush x:Key="SeparatorForeground" Color="#D6D6D6"/>
+            <SolidColorBrush x:Key="AvatarBorderBackground" Color="#989898"/>
+            <SolidColorBrush x:Key="SelectionColorBrush" Color="MediumSeaGreen"/>
+            <SolidColorBrush x:Key="AuthorGroupMessageForeground" Color="#3E465F"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

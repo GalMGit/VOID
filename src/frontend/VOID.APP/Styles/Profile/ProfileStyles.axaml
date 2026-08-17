@@ -1,0 +1,81 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style Selector="Separator">
+        <Setter Property="Background" Value="{DynamicResource SeparatorForeground}"/>
+    </Style>
+    <Style Selector="asyncImageLoader|AdvancedImage.avatarProfileImage">
+        <Setter Property="Stretch" Value="UniformToFill" />
+        <Setter Property="Clip">
+            <Setter.Value>
+                <EllipseGeometry Rect="0,0,130,130"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style Selector="TextBox.editNameTextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+    </Style>
+    
+    <Style Selector="StackPanel.profileInfoStackPanel">
+        <Setter Property="Margin" Value="15 10 15 0"/>
+    </Style>
+    
+    <Style Selector="SelectableTextBlock.usernameSelectableTextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Margin" Value="0 10 0 0"/>
+        <Setter Property="Foreground" Value="#495B74"/>
+        <Setter Property="SelectionBrush" Value="#232323"/>
+    </Style>
+    
+    <Style Selector="TextBlock.usernameTextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Margin" Value="0 0 10 0"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+    </Style>
+    
+    <Style Selector="TextBlock.aboutMeLabelTextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        <Setter Property="Margin" Value="0 5 0 0"/>
+    </Style>
+    
+    <Style Selector="TextBlock.aboutMeTextBlock">
+        <Setter Property="Foreground" Value="#827E76"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
+    <Style Selector="Border.avatarBorder">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="Height" Value="130"/>
+        <Setter Property="CornerRadius" Value="65"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ClipToBounds" Value="True"/>
+    </Style>
+    <Style Selector="TextBox.aboutMeTextBox">
+        <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0 0 0 5"/>
+        <Setter Property="Foreground" Value="#827E76"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="BorderBrush" Value="#323232"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Style Selector="^:focus /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Setter Property="BorderBrush" Value="#323232"/>
+        </Style>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Setter Property="BorderBrush" Value="#323232"/>
+        </Style>
+    </Style>
+</Styles>

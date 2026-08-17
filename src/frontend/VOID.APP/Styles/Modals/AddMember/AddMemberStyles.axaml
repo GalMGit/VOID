@@ -1,0 +1,73 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:imageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia">
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+    </Style>
+    
+    <Style Selector="TextBlock.searchTextBlock">
+        <Setter Property="FontSize" Value="25"/>
+    </Style>
+    
+    <Style Selector="TextBox.searchTextBox">
+        <Setter Property="Background" Value="{DynamicResource TextBoxMain}"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="5 0 5 0"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SelectionBrush" Value="#3F3F3F"/>
+        <Style Selector="^:focus /template/ Border">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="{DynamicResource TextBoxFocus}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+        <Style Selector="^:focus">
+            <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
+        </Style>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource TextBoxMain}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+    </Style>
+    
+    <Style Selector="Border.searchUserCardBorder">
+        <Setter Property="Background" Value="{DynamicResource ListBoxItemBackground}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+    
+    <Style Selector="imageLoader|AdvancedImage.avatar">
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="Stretch" Value="UniformToFill"/>
+        <Setter Property="Clip">
+            <Setter.Value>
+                <EllipseGeometry 
+                    RadiusX="25"
+                    RadiusY="25"
+                    Center="30,30" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style Selector="TextBlock.usernameTextBlock">
+        <Setter Property="Margin" Value="0 17 0 0"/>
+        <Setter Property="FontSize" Value="17"/>
+    </Style>
+    
+    <Style Selector="Button.memberListButton">
+        <Setter Property="CornerRadius" Value="20"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Margin" Value="0 0 5 0"/>
+    </Style>
+    
+    <Style Selector="TextBlock.addedMembersTextBlock">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+</Styles>
