@@ -23,13 +23,13 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore tests/VOID.Application.UnitTests/VOID.Application.UnitTests.csproj
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build tests/VOID.Application.UnitTests/VOID.Application.UnitTests.csproj --no-restore --configuration Release
 
       - name: Run tests
         run: dotnet test tests/VOID.Application.UnitTests/VOID.Application.UnitTests.csproj --no-build --configuration Release
