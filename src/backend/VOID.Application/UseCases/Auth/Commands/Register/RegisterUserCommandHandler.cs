@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using VOID.Application.Abstractions.IServices.IMailServices;
 using VOID.Application.Abstractions.IRepositories.IUserRepositories;
 using VOID.Application.Abstractions.IServices.IAuthServices;
 using VOID.Application.Abstractions.IServices.ICacheServices;

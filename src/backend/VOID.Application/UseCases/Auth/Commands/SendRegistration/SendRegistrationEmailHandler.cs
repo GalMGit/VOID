@@ -1,8 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using VOID.Application.Abstractions.IServices.IMailServices;
+using VOID.Application.UseCases.Auth.Events;
 
-namespace VOID.Application.UseCases.Auth.Events;
+namespace VOID.Application.UseCases.Auth.Commands.SendRegistration;
 
 public sealed class SendRegistrationEmailHandler(
     IEmailQueueService emailQueueService, 
