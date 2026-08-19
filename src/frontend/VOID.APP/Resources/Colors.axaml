@@ -49,7 +49,7 @@
             <SolidColorBrush x:Key="ListBoxItemBackgroundPointerover" Color="#D6D6D6"/>
             <SolidColorBrush x:Key="UserControlBackground" Color="#E5E5E5"/>
             <SolidColorBrush x:Key="BackChatContentBorder" Color="#F2F2F2"/>
-            <SolidColorBrush x:Key="BackChatContentBorderBrush" Color="#F4D9D9D9"/>
+            <SolidColorBrush x:Key="BackChatContentBorderBrush" Color="#F4E9E9E9"/>
             <SolidColorBrush x:Key="BackPaneBorder" Color="#E5E5E5"/>
             <SolidColorBrush x:Key="ListChatsBackBorder" Color="#F2F2F2"/>
             <SolidColorBrush x:Key="BackgroundDialog" Color="#E3E3E3"/>
