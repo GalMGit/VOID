@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using VOID.APP.DI;
 using VOID.APP.Services.Interfaces.IAuth;
 
 namespace VOID.APP.Services.Implementations.Auth;
@@ -28,7 +29,7 @@ public class AuthHandler : DelegatingHandler
 
         _refreshHttpClient = new HttpClient
         {
-            BaseAddress = new Uri("http://localhost:5018/api/"),
+            BaseAddress = new Uri(Urls.ProdApiUrl),
             Timeout = TimeSpan.FromMinutes(1)
         };
     }
@@ -39,7 +40,7 @@ public class AuthHandler : DelegatingHandler
     {
         Console.WriteLine($"Отправка запроса: {request.Method} {request.RequestUri}");
 
-        var isApiRequest = request.RequestUri?.Host == "localhost";
+        var isApiRequest = request.RequestUri?.Host == "neurosyncapp.ru";
 
         if (isApiRequest &&
             !string.IsNullOrWhiteSpace(_tokenService.AccessToken))

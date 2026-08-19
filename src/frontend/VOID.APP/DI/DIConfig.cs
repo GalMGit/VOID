@@ -87,7 +87,7 @@ public static class DIConfig
 
             return new HttpClient(authHandler)
             {
-                BaseAddress = new Uri("http://localhost:5018/api/"),
+                BaseAddress = new Uri(Urls.ProdApiUrl),
                 Timeout = TimeSpan.FromMinutes(3)
             };
         });
@@ -96,7 +96,7 @@ public static class DIConfig
         {
             var tokenService = sp.GetRequiredService<ITokenService>();
             return new HubConnectionBuilder()
-                .WithUrl("http://localhost:5018/chatHub", options =>
+                .WithUrl(Urls.ProdHubUrl, options =>
                 {
                     options.AccessTokenProvider = () =>
                         Task.FromResult(tokenService.AccessToken);

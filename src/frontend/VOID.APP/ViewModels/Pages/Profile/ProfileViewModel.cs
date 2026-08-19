@@ -163,6 +163,7 @@ public partial class ProfileViewModel : ModalViewModelBase
                 validationError);
 
             await box.ShowAsync();
+            return;
         }
 
         await using var stream = await file.OpenReadAsync();

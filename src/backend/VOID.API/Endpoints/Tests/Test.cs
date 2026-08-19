@@ -6,8 +6,10 @@ public sealed class Test : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("test", () =>
-                "Endpoint has been tested")
+        app.MapGet("test", () => Results.Ok(new
+            {
+                Success = "endpoint has been tested."
+            }))
             .AllowAnonymous();
     }
 }
