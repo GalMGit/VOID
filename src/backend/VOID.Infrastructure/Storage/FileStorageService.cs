@@ -44,105 +44,27 @@ public sealed class FileStorageService : IFileStorageService
         }.Build();
     }
 
-    public async Task<FileUploadResult> UploadAvatarAsync(
+    #region Public Methods
+
+    public Task<FileUploadResult> UploadAvatarAsync(
         UploadFile file,
         Guid userId,
         CancellationToken ct = default)
-    {
-        if (file.Length > 6 * 1024 * 1024)
-            throw new ValidationException("File size exceeds 6 MB.");
+        => UploadProfileImageAsync(
+            file,
+            $"users/{userId}",
+            "Avatar must be an image.",
+            ct);
 
-        var detectedContentType = Validate(file.Stream);
-
-        if (!detectedContentType.StartsWith("image/"))
-            throw new ValidationException("Avatar must be an image.");
-
-        file.Stream.Position = 0;
-
-        using var image = await Image.LoadAsync(
-            file.Stream, ct);
-
-        image.Mutate(x => x.Resize(new ResizeOptions
-        {
-            Size = new Size(200, 200),
-            Mode = ResizeMode.Crop
-        }));
-
-        await using var output = new MemoryStream();
-
-        await image.SaveAsJpegAsync(
-            output,
-            new JpegEncoder
-            {
-                Quality = 50
-            }, ct);
-
-        output.Position = 0;
-
-        var key = $"users/{userId}/{Guid.NewGuid()}.jpg";
-
-        const string contentType = "image/jpeg";
-
-        await _publicStorage.UploadAsync(
-            key,
-            output,
-            contentType, ct);
-
-        return new FileUploadResult(
-            key,
-            null,
-            contentType);
-    }
-
-    public async Task<FileUploadResult> UploadGroupImageAsync(
+    public Task<FileUploadResult> UploadGroupImageAsync(
         UploadFile file,
         Guid groupId,
         CancellationToken ct = default)
-    {
-        if (file.Length > 6 * 1024 * 1024)
-            throw new ValidationException("File size exceeds 6 MB.");
-
-        var detectedContentType = Validate(file.Stream);
-
-        if (!detectedContentType.StartsWith("image/"))
-            throw new ValidationException("Group Image must be an image.");
-
-        file.Stream.Position = 0;
-
-        using var image = await Image.LoadAsync(
-            file.Stream, ct);
-
-        image.Mutate(x => x.Resize(new ResizeOptions
-        {
-            Size = new Size(200, 200),
-            Mode = ResizeMode.Crop
-        }));
-
-        await using var output = new MemoryStream();
-
-        await image.SaveAsJpegAsync(
-            output,
-            new JpegEncoder
-            {
-                Quality = 50
-            }, ct);
-
-        output.Position = 0;
-
-        var key = $"groups/{groupId}/{Guid.NewGuid()}.jpg";
-
-        const string contentType = "image/jpeg";
-
-        await _publicStorage.UploadAsync(
-            key,
-            output,
-            contentType, ct);
-
-        return new FileUploadResult(
-            key,
-            null,
-            contentType);
-    }
+        => UploadProfileImageAsync(
+            file,
+            $"groups/{groupId}",
+            "Group Image must be an image.",
+            ct);
 
     public async Task<FileUploadResult> UploadMessageMediaAsync(
         UploadFile file,
@@ -150,144 +72,32 @@ public sealed class FileStorageService : IFileStorageService
         CancellationToken ct = default)
     {
         var detectedContentType = Validate(file.Stream);
+        ValidateFileSize(file.Length, detectedContentType);
 
-        var isImage = detectedContentType.StartsWith("image/");
-        var isVideo = detectedContentType.StartsWith("video/");
-        var isAudio = detectedContentType.StartsWith("audio/");
+        var mediaKey = CreateMediaKey(chatId, detectedContentType);
 
-        var maxSize = isVideo
-            ? 50 * 1024 * 1024
-            : 6 * 1024 * 1024;
+        if (detectedContentType.StartsWith("video/"))
+            return await UploadVideoAsync(file, chatId, mediaKey, detectedContentType, ct);
 
-        if (file.Length > maxSize)
-        {
-            throw new ValidationException(
-                $"Maximum size is {maxSize / 1024 / 1024} MB.");
-        }
+        if (detectedContentType.StartsWith("audio/"))
+            return await UploadAudioAsync(file, mediaKey, detectedContentType, ct);
 
-        var mediaKey =
-            $"messages/{chatId}/{Guid.NewGuid()}{GetExtension(detectedContentType)}";
+        if (detectedContentType.StartsWith("image/"))
+            return await UploadImageWithThumbnailAsync(file, chatId, mediaKey, detectedContentType, ct);
 
-        if (isVideo)
-        {
-            file.Stream.Position = 0;
-
-            await using var memory = new MemoryStream();
-
-            await file.Stream.CopyToAsync(memory, ct);
-
-            memory.Position = 0;
-
-            await _privateStorage.UploadAsync(
-                mediaKey,
-                memory,
-                detectedContentType,
-                ct);
-
-            memory.Position = 0;
-
-            await using var thumbnail =
-                await CreateVideoThumbnailAsync(
-                    memory,
-                    ct);
-
-            var thumbnailVideoKey =
-                $"messages/{chatId}/{Guid.NewGuid()}_thumb.jpg";
-
-            await _privateStorage.UploadAsync(
-                thumbnailVideoKey,
-                thumbnail,
-                "image/jpeg",
-                ct);
-
-            return new FileUploadResult(
-                mediaKey,
-                thumbnailVideoKey,
-                detectedContentType);
-        }
-
-        if (isAudio)
-        {
-            file.Stream.Position = 0;
-
-            await _privateStorage.UploadAsync(
-                mediaKey,
-                file.Stream,
-                detectedContentType,
-                ct);
-
-            return new FileUploadResult(
-                mediaKey,
-                null,
-                detectedContentType);
-        }
-
-        if (isImage)
-        {
-            file.Stream.Position = 0;
-
-            await using var imageStream =
-                new MemoryStream();
-
-            await file.Stream.CopyToAsync(
-                imageStream,
-                ct);
-
-            imageStream.Position = 0;
-
-            await _privateStorage.UploadAsync(
-                mediaKey,
-                imageStream,
-                detectedContentType,
-                ct);
-
-            string? thumbnailKey = null;
-
-            if (detectedContentType != "image/gif")
-            {
-                imageStream.Position = 0;
-
-                await using var thumbnail =
-                    await CreateThumbnailAsync(
-                        imageStream,
-                        ct);
-
-                thumbnailKey =
-                    $"messages/{chatId}/{Guid.NewGuid()}_thumb.jpg";
-
-                await _privateStorage.UploadAsync(
-                    thumbnailKey,
-                    thumbnail,
-                    "image/jpeg",
-                    ct);
-            }
-
-            return new FileUploadResult(
-                mediaKey,
-                thumbnailKey,
-                detectedContentType);
-        }
-
-        throw new ValidationException(
-            $"Unsupported content type: {detectedContentType}");
+        throw new ValidationException($"Unsupported content type: {detectedContentType}");
     }
-
 
     public Task DeleteChatMessagesFolderAsync(
         Guid chatId,
         CancellationToken ct = default)
-        => _privateStorage.DeletePrefixAsync(
-            $"messages/{chatId}/", ct);
+        => _privateStorage.DeletePrefixAsync($"messages/{chatId}/", ct);
 
     public string GetAvatarUrl(string key)
         => _publicStorage.GetPublicUrl(key);
 
-    public string GetMessageMediaUrl(
-        string key,
-        TimeSpan lifetime)
-        => _privateStorage.GetPresignedUrl(
-            key,
-            lifetime);
+    public string GetMessageMediaUrl(string key, TimeSpan lifetime)
+        => _privateStorage.GetPresignedUrl(key, lifetime);
 
     public async Task DeleteMediaAsync(
         string? mediaPath,
@@ -295,14 +105,10 @@ public sealed class FileStorageService : IFileStorageService
         CancellationToken ct = default)
     {
         if (!string.IsNullOrWhiteSpace(thumbnailPath))
-            await _privateStorage.DeleteAsync(
-                thumbnailPath,
-                ct);
+            await _privateStorage.DeleteAsync(thumbnailPath, ct);
 
         if (!string.IsNullOrWhiteSpace(mediaPath))
-            await _privateStorage.DeleteAsync(
-                mediaPath,
-                ct);
+            await _privateStorage.DeleteAsync(mediaPath, ct);
     }
 
     public async Task DeleteAvatarAsync(
@@ -312,10 +118,103 @@ public sealed class FileStorageService : IFileStorageService
         if (string.IsNullOrWhiteSpace(avatarPath))
             return;
 
-        await _publicStorage.DeleteAsync(
-            avatarPath,
-            ct);
+        await _publicStorage.DeleteAsync(avatarPath, ct);
     }
+
+    #endregion
+
+    #region Private Upload Methods
+
+    private async Task<FileUploadResult> UploadProfileImageAsync(
+        UploadFile file,
+        string folderPath,
+        string errorMessage,
+        CancellationToken ct)
+    {
+        ValidateFileSize(file.Length, StorageConstants.MaxImageSize);
+        var detectedContentType = Validate(file.Stream);
+
+        if (!detectedContentType.StartsWith("image/"))
+            throw new ValidationException(errorMessage);
+
+        await using var processedImage = await ProcessImageAsync(
+            file.Stream,
+            StorageConstants.ProfileImageWidth,
+            StorageConstants.ProfileImageHeight,
+            StorageConstants.ProfileImageQuality,
+            ct);
+
+        var key = $"{folderPath}/{Guid.NewGuid()}.jpg";
+        const string contentType = "image/jpeg";
+
+        await _publicStorage.UploadAsync(key, processedImage, contentType, ct);
+
+        return new FileUploadResult(key, null, contentType);
+    }
+
+    private async Task<FileUploadResult> UploadVideoAsync(
+        UploadFile file,
+        Guid chatId,
+        string mediaKey,
+        string contentType,
+        CancellationToken ct)
+    {
+        await using var memory = await file.Stream.ToMemoryStreamAsync(ct);
+        await _privateStorage.UploadAsync(mediaKey, memory, contentType, ct);
+
+        memory.Position = 0;
+        await using var thumbnail = await CreateVideoThumbnailAsync(memory, ct);
+        var thumbnailKey = CreateThumbnailKey(chatId);
+
+        await _privateStorage.UploadAsync(thumbnailKey, thumbnail, "image/jpeg", ct);
+
+        return new FileUploadResult(mediaKey, thumbnailKey, contentType);
+    }
+
+    private async Task<FileUploadResult> UploadAudioAsync(
+        UploadFile file,
+        string mediaKey,
+        string contentType,
+        CancellationToken ct)
+    {
+        file.Stream.Position = 0;
+        await _privateStorage.UploadAsync(mediaKey, file.Stream, contentType, ct);
+
+        return new FileUploadResult(mediaKey, null, contentType);
+    }
+
+    private async Task<FileUploadResult> UploadImageWithThumbnailAsync(
+        UploadFile file,
+        Guid chatId,
+        string mediaKey,
+        string contentType,
+        CancellationToken ct)
+    {
+        await using var imageStream = await file.Stream.ToMemoryStreamAsync(ct);
+        await _privateStorage.UploadAsync(mediaKey, imageStream, contentType, ct);
+
+        string? thumbnailKey = null;
+
+        if (contentType != "image/gif")
+        {
+            imageStream.Position = 0;
+            await using var thumbnail = await ProcessImageAsync(
+                imageStream,
+                StorageConstants.ThumbnailWidth,
+                StorageConstants.ThumbnailHeight,
+                StorageConstants.ThumbnailQuality,
+                ct);
+
+            thumbnailKey = CreateThumbnailKey(chatId);
+            await _privateStorage.UploadAsync(thumbnailKey, thumbnail, "image/jpeg", ct);
+        }
+
+        return new FileUploadResult(mediaKey, thumbnailKey, contentType);
+    }
+
+    #endregion
+
+    #region Private Helper Methods
 
     private string Validate(Stream stream)
     {
@@ -336,30 +235,39 @@ public sealed class FileStorageService : IFileStorageService
         return mimeType;
     }
 
-    private async Task<MemoryStream> CreateThumbnailAsync(
+    private void ValidateFileSize(long fileLength, string contentType)
+    {
+        var maxSize = contentType.StartsWith("video/")
+            ? StorageConstants.MaxVideoSize
+            : StorageConstants.MaxImageSize;
+
+        ValidateFileSize(fileLength, maxSize);
+    }
+
+    private void ValidateFileSize(long fileLength, int maxSize)
+    {
+        if (fileLength > maxSize)
+            throw new ValidationException($"Maximum size is {maxSize / 1024 / 1024} MB.");
+    }
+
+    private async Task<MemoryStream> ProcessImageAsync(
         Stream stream,
+        int width,
+        int height,
+        int quality,
         CancellationToken ct)
     {
         stream.Position = 0;
-
         using var image = await Image.LoadAsync(stream, ct);
 
         image.Mutate(x => x.Resize(new ResizeOptions
         {
-            Size = new Size(200, 200),
+            Size = new Size(width, height),
             Mode = ResizeMode.Crop
         }));
 
         var output = new MemoryStream();
-
-        await image.SaveAsJpegAsync(
-            output,
-            new JpegEncoder
-            {
-                Quality = 45
-            },
-            ct);
-
+        await image.SaveAsJpegAsync(output, new JpegEncoder { Quality = quality }, ct);
         output.Position = 0;
 
         return output;
@@ -369,70 +277,78 @@ public sealed class FileStorageService : IFileStorageService
         Stream videoStream,
         CancellationToken ct)
     {
-        var inputFile = Path.Combine(
-            Path.GetTempPath(),
-            $"{Guid.NewGuid()}.mp4");
-
-        var outputFile = Path.Combine(
-            Path.GetTempPath(),
-            $"{Guid.NewGuid()}.jpg");
+        var tempFiles = new List<string>();
 
         try
         {
-            videoStream.Position = 0;
+            var inputFile = CreateTempFile("mp4", tempFiles);
+            var outputFile = CreateTempFile("jpg", tempFiles);
 
+            videoStream.Position = 0;
             await using (var file = File.Create(inputFile))
             {
                 await videoStream.CopyToAsync(file, ct);
             }
 
             ct.ThrowIfCancellationRequested();
+
             var process = FFMpegArguments
                 .FromFileInput(inputFile)
-                .OutputToFile(
-                    outputFile,
-                    overwrite: true,
+                .OutputToFile(outputFile, overwrite: true,
                     options => options
                         .Seek(TimeSpan.FromSeconds(2))
                         .WithFrameOutputCount(1))
                 .CancellableThrough(ct);
 
-            await process.ProcessAsynchronously();
+            var success = await process.ProcessAsynchronously();
+
+            if (!success)
+                throw new ValidationException("Failed to create video thumbnail");
+
             ct.ThrowIfCancellationRequested();
 
-            using var image = await Image.LoadAsync(outputFile, ct);
-
-            image.Mutate(x => x.Resize(new ResizeOptions
-            {
-                Size = new Size(300, 200),
-                Mode = ResizeMode.Crop
-            }));
-
-            var result = new MemoryStream();
-
-            await image.SaveAsJpegAsync(
-                result,
-                new JpegEncoder
-                {
-                    Quality = 80
-                },
+            return await ProcessImageAsync(
+                File.OpenRead(outputFile),
+                StorageConstants.VideoThumbnailWidth,
+                StorageConstants.VideoThumbnailHeight,
+                StorageConstants.VideoThumbnailQuality,
                 ct);
-
-            result.Position = 0;
-
-            return result;
         }
         finally
         {
-            if (File.Exists(inputFile))
-                File.Delete(inputFile);
-
-            if (File.Exists(outputFile))
-                File.Delete(outputFile);
+            CleanupTempFiles(tempFiles);
         }
     }
 
-    private string GetExtension(string contentType)
+    private string CreateTempFile(string extension, List<string> files)
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.{extension}");
+        files.Add(path);
+        return path;
+    }
+
+    private void CleanupTempFiles(List<string> files)
+    {
+        foreach (var file in files.Where(File.Exists))
+        {
+            try
+            {
+                File.Delete(file);
+            }
+            catch
+            {
+                // Логирование ошибки удаления временного файла
+            }
+        }
+    }
+
+    private static string CreateMediaKey(Guid chatId, string contentType)
+        => $"messages/{chatId}/{Guid.NewGuid()}{GetExtension(contentType)}";
+
+    private static string CreateThumbnailKey(Guid chatId)
+        => $"messages/{chatId}/{Guid.NewGuid()}_thumb.jpg";
+
+    private static string GetExtension(string contentType)
     {
         return contentType switch
         {
@@ -442,9 +358,45 @@ public sealed class FileStorageService : IFileStorageService
             "video/mp4" => ".mp4",
             "video/webm" => ".webm",
             "audio/wav" => ".wav",
-
-            _ => throw new ValidationException(
-                $"Unsupported content type: {contentType}")
+            _ => throw new ValidationException($"Unsupported content type: {contentType}")
         };
     }
+
+    #endregion
 }
+
+#region Helper Classes
+
+internal static class StorageConstants
+{
+    public const int MaxImageSize = 6 * 1024 * 1024;
+    public const int MaxVideoSize = 50 * 1024 * 1024;
+    
+    public const int ProfileImageWidth = 200;
+    public const int ProfileImageHeight = 200;
+    public const int ProfileImageQuality = 50;
+    
+    public const int ThumbnailWidth = 200;
+    public const int ThumbnailHeight = 200;
+    public const int ThumbnailQuality = 45;
+    
+    public const int VideoThumbnailWidth = 300;
+    public const int VideoThumbnailHeight = 200;
+    public const int VideoThumbnailQuality = 80;
+}
+
+internal static class StreamExtensions
+{
+    public static async Task<MemoryStream> ToMemoryStreamAsync(
+        this Stream stream,
+        CancellationToken ct = default)
+    {
+        var memoryStream = new MemoryStream();
+        stream.Position = 0;
+        await stream.CopyToAsync(memoryStream, ct);
+        memoryStream.Position = 0;
+        return memoryStream;
+    }
+}
+
+#endregion
