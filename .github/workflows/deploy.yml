@@ -28,6 +28,7 @@ jobs:
 
             git pull origin master
 
-            docker compose up -d --build
+            docker compose build void.api
+            docker compose up -d --no-deps void.api
 
             docker image prune -f
