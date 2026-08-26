@@ -18,6 +18,6 @@ public sealed class SendRegistrationEmailHandler(
             message.Username,
             message.ConfirmationCode);
         
-        emailQueueService.EnqueueEmail(email);
+        await emailQueueService.EnqueueAsync(email);
     }
 }

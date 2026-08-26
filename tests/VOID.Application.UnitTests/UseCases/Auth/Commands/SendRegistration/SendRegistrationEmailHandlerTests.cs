@@ -89,9 +89,9 @@ public sealed class SendRegistrationEmailHandlerTests
         await _sut.Handle(message, CancellationToken.None);
 
         // Assert
-        _emailQueueService
+        await _emailQueueService
             .Received(1)
-            .EnqueueEmail(emailTask);
+            .EnqueueAsync(emailTask);
     }
 
     [Fact]
@@ -242,13 +242,13 @@ public sealed class SendRegistrationEmailHandlerTests
         await _sut.Handle(message, CancellationToken.None);
 
         // Assert
-        _emailQueueService
+        await _emailQueueService
             .Received(1)
-            .EnqueueEmail(expectedEmailTask);
+            .EnqueueAsync(expectedEmailTask);
 
-        _emailQueueService
+        await _emailQueueService
             .DidNotReceive()
-            .EnqueueEmail(differentEmailTask);
+            .EnqueueAsync(differentEmailTask);
     }
 
     [Fact]
@@ -308,9 +308,9 @@ public sealed class SendRegistrationEmailHandlerTests
         await act.Should().ThrowAsync<Exception>()
             .WithMessage("Template error");
 
-        _emailQueueService
+        await _emailQueueService
             .DidNotReceive()
-            .EnqueueEmail(Arg.Any<EmailTaskDto>());
+            .EnqueueAsync(Arg.Any<EmailTaskDto>());
     }
 
     [Fact]
@@ -377,7 +377,7 @@ public sealed class SendRegistrationEmailHandlerTests
             .AndDoes(_ => callOrder.Add("template"));
 
         _emailQueueService
-            .When(x => x.EnqueueEmail(Arg.Any<EmailTaskDto>()))
+            .When(x => x.EnqueueAsync(Arg.Any<EmailTaskDto>()))
             .Do(_ => callOrder.Add("enqueue"));
 
         // Act

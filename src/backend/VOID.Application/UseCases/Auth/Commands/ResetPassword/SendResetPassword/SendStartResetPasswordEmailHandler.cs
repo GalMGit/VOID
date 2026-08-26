@@ -17,6 +17,6 @@ public sealed class SendStartResetPasswordEmailHandler(
             message.Email,
             message.ConfirmationCode);
         
-        emailQueueService.EnqueueEmail(email);
+        await emailQueueService.EnqueueAsync(email);
     }
 }
