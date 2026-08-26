@@ -6,7 +6,9 @@ using VOID.Persistence.Database.Context;
 
 namespace VOID.Persistence.Repositories.UserRepositories;
 
-public class UserRepository(VoidDbContext database) : IUserRepository
+public class UserRepository(
+    VoidDbContext database) 
+    : IUserRepository
 {
     public async Task<User> CreateAsync(
         User user,
@@ -27,6 +29,15 @@ public class UserRepository(VoidDbContext database) : IUserRepository
             .ExecuteUpdateAsync(x => x
                 .SetProperty(s => s.IsOnline, isOnline), ct);
     }
+
+    public async Task ChangePasswordAsync(
+        Guid userId,
+        string newPassword,
+        CancellationToken ct = default)
+        => await database.Users
+            .Where(x => x.Id == userId && !x.IsDeleted)
+            .ExecuteUpdateAsync(x => 
+                x.SetProperty(p => p.PasswordHash, newPassword), ct);
 
     public async Task<List<User>> SearchUsersForGroupAsync(
         string searchTerm,

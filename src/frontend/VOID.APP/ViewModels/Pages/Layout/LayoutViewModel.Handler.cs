@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using Microsoft.AspNetCore.SignalR.Client;
 using VOID.APP.Models.Messages;
@@ -175,6 +176,13 @@ public partial class LayoutViewModel
             .Subscribe()
             .DisposeWith(_disposables);
 
+        MessageBus.Current.Listen<string>("Theme")
+            .Subscribe(theme =>
+            {
+                Console.WriteLine(theme);
+                IsThemeChecked = theme == "Dark";
+            });
+
         MessageBus.Current.Listen<GroupModel>(MessageTokens.OpenAddMemberDialog)
             .SelectMany(g => Observable.FromAsync(async () =>
             {
@@ -185,7 +193,7 @@ public partial class LayoutViewModel
             }))
             .Subscribe()
             .DisposeWith(_disposables);
-
+        
         MessageBus.Current.Listen<FullGroupModel>(MessageTokens.OpenEditGroupDialog)
             .SelectMany(g => Observable.FromAsync(async () =>
             {

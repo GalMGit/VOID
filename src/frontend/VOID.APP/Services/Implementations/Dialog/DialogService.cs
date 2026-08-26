@@ -10,7 +10,9 @@ namespace VOID.APP.Services.Implementations;
 public class DialogService : IDialogService
 {
     public async Task ShowAsync<TViewModel>(TViewModel viewModel) where TViewModel : ModalViewModelBase
-        => await DialogHost.Show(viewModel, DialogNames.Dialog);
+    {
+        await DialogHost.Show(viewModel, DialogNames.Dialog);
+    } 
     
 
     public void Close()

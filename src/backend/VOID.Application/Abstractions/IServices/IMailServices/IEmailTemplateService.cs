@@ -5,4 +5,5 @@ namespace VOID.Application.Abstractions.IServices.IMailServices;
 public interface IEmailTemplateService
 {
     EmailTaskDto GetRegistrationConfirmation(string toEmail, string username, string code);
+    EmailTaskDto GetResetConfirmation(string toEmail, string code);
 }

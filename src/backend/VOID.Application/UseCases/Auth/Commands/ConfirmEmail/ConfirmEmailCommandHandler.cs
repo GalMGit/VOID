@@ -17,7 +17,10 @@ public class ConfirmEmailCommandHandler(
         CancellationToken ct)
     {
         var cacheKey = $"temp_user:{request.Dto.Email}";
-        var tempUser = await cacheService.GetAsync<TempUser>(cacheKey, ct);
+        
+        var tempUser = await cacheService.GetAsync<TempUser>(
+            cacheKey, ct);
+        
         if (tempUser is null)
             throw new NotFoundException("Код подтверждения не найден, зарегистрируйтесь заново");
 
@@ -47,6 +50,7 @@ public class ConfirmEmailCommandHandler(
             AppRole = tempUser.Role,
             PasswordHash = tempUser.PasswordHash
         };
+        
         await userRepository.CreateAsync(
             user, ct);
         

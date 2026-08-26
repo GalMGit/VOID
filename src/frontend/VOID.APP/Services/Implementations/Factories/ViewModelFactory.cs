@@ -21,6 +21,9 @@ using VOID.APP.ViewModels.Pages.Group.ListGroups;
 using VOID.APP.ViewModels.Pages.Layout;
 using VOID.APP.ViewModels.Pages.Layout.Search;
 using VOID.APP.ViewModels.Pages.Profile;
+using VOID.APP.ViewModels.Pages.Settings;
+using VOID.APP.ViewModels.Pages.Settings.ChangePassword;
+using VOID.APP.ViewModels.Pages.Settings.Menu;
 
 namespace VOID.APP.Services.Implementations.Factories;
 
@@ -120,6 +123,30 @@ public class ViewModelFactory(IServiceProvider serviceProvider) : IViewModelFact
     {
         var factory = serviceProvider.GetRequiredService<Func<FullGroupModel, EditGroupViewModel>>();
         return factory(groupModel);
+    }
+
+    public SettingsViewModel CreateSettings()
+    {
+        var factory = serviceProvider.GetRequiredService<Func<SettingsViewModel>>();
+        return factory();
+    }
+
+    public SettingsMenuViewModel CreateSettingsMenu()
+    {
+        var factory = serviceProvider.GetRequiredService<Func<SettingsMenuViewModel>>();
+        return factory();
+    }
+
+    public ChangePasswordViewModel CreateChangePassword()
+    {
+        var factory = serviceProvider.GetRequiredService<Func<ChangePasswordViewModel>>();
+        return factory();
+    }
+
+    public ResetPasswordViewModel CreateResetPassword()
+    {
+        var factory = serviceProvider.GetRequiredService<Func<ResetPasswordViewModel>>();
+        return factory();
     }
 
     public ConfirmEmailViewModel CreateConfirmEmail()

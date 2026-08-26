@@ -61,7 +61,7 @@ public sealed class RegisterUserCommandHandler(
             ct);
 
         await bus.PublishAsync(
-            new UserRegisteredEvent(
+            new UserStartRegistrationEvent(
                 tempUser.Id,
                 tempUser.Email,
                 tempUser.Username,

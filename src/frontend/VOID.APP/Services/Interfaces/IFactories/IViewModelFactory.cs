@@ -21,6 +21,9 @@ using VOID.APP.ViewModels.Pages.Group.ListGroups;
 using VOID.APP.ViewModels.Pages.Layout;
 using VOID.APP.ViewModels.Pages.Layout.Search;
 using VOID.APP.ViewModels.Pages.Profile;
+using VOID.APP.ViewModels.Pages.Settings;
+using VOID.APP.ViewModels.Pages.Settings.ChangePassword;
+using VOID.APP.ViewModels.Pages.Settings.Menu;
 
 namespace VOID.APP.Services.Interfaces;
 
@@ -43,4 +46,8 @@ public interface IViewModelFactory
     AddMemberViewModel CreateAddMember(GroupModel groupModel);
     ConfirmEmailViewModel CreateConfirmEmail();
     EditGroupViewModel CreateEditGroup(FullGroupModel groupModel);
+    SettingsViewModel CreateSettings();
+    SettingsMenuViewModel CreateSettingsMenu();
+    ChangePasswordViewModel CreateChangePassword();
+    ResetPasswordViewModel CreateResetPassword();
 }

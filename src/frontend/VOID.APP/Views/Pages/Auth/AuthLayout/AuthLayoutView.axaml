@@ -8,26 +8,56 @@
         <StyleInclude Source="/Styles/Auth/AuthStyles.axaml"/>
     </UserControl.Styles>
     <Border Classes="mainBorder">
-        <StackPanel VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock x:Name="TitleText"
-                           Text="VOID"
-                           FontFamily="{StaticResource Comfortaa}"
-                           FontWeight="700"
-                           LetterSpacing="30"
-                           FontSize="55"
-                           Margin="30 20 0 0"
-                           Classes="reginText"/>
-                <Separator x:Name="Cursor"
-                           Width="8"
-                           CornerRadius="10"
-                           Classes="cursorSeparator"
-                           Height="8"/>
+        <Grid>
+            <ToggleButton
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Classes="themeToggle"
+                Command="{Binding SwitchThemeCommand}"
+                x:Name="ToggleButton"
+                IsChecked="{Binding IsThemeChecked}">
+                <ToggleButton.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <PathIcon
+                                IsVisible="{Binding #ToggleButton.IsChecked}"
+                                Data="{StaticResource weather_moon_regular}" />
+                            <PathIcon
+                                IsVisible="{Binding !#ToggleButton.IsChecked}"
+                                Data="{StaticResource weather_sunny_regular}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ToggleButton.ContentTemplate>
+            </ToggleButton>
+            <StackPanel VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            Margin="0 0 0 5">
+                    <TextBlock x:Name="TitleText"
+                               Text="VOID"
+                               FontFamily="{StaticResource Comfortaa}"
+                               FontWeight="700"
+                               LetterSpacing="30"
+                               FontSize="55"
+                               Margin="30 20 0 0"
+                               Classes="reginText"/>
+                    <Separator x:Name="Cursor"
+                               Width="8"
+                               CornerRadius="10"
+                               Classes="cursorSeparator"
+                               Height="8"/>
+                </StackPanel>
+                <StackPanel Classes="mainStack">
+                    <ContentControl
+                        Content="{Binding CurrentAuthPage}" />
+                </StackPanel>
+                <Button Content="На главную" 
+                        IsVisible="{Binding IsPageReset}"
+                        FontSize="14"
+                        Command="{Binding GoToMainCommand}"
+                        Background="Transparent"
+                        HorizontalAlignment="Center"/>
             </StackPanel>
-            <StackPanel Classes="mainStack">
-                <ContentControl
-                    Content="{Binding CurrentAuthPage}" />
-            </StackPanel>
-        </StackPanel>
+        </Grid>
     </Border>
 </UserControl>

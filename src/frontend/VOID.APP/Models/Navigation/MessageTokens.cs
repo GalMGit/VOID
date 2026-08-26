@@ -13,6 +13,7 @@ public static class MessageTokens
     public const string AvatarLoaded = nameof(AvatarLoaded);
     public const string GoToLogin = nameof(GoToLogin);
     public const string GoToRegister = nameof(GoToRegister);
+    public const string GoToResetPass = nameof(GoToResetPass);
     public const string ScrollToBottom = nameof(ScrollToBottom);
     public const string GetScrollPosition = nameof(GetScrollPosition);
     public const string CreateChat = nameof(CreateChat);

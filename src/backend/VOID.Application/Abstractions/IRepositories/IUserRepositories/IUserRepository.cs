@@ -16,5 +16,6 @@ public interface IUserRepository : IRepository<User>
     Task<List<User>> SearchAsync(string searchTerm, Guid userId, CancellationToken ct = default);
     Task ChangeUserLastSeenAsync(Guid userId, CancellationToken ct = default);
     Task OnlineStatusChangeAsync(Guid userId, bool isOnline, CancellationToken ct = default);
+    Task ChangePasswordAsync(Guid userId, string newPassword, CancellationToken ct = default);
     Task<List<User>> SearchUsersForGroupAsync(string searchTerm, Guid currentUserId, Guid groupId, CancellationToken ct = default);
 }

@@ -29,7 +29,7 @@ public class AuthHandler : DelegatingHandler
 
         _refreshHttpClient = new HttpClient
         {
-            BaseAddress = new Uri(Urls.ProdApiUrl),
+            BaseAddress = new Uri(Urls.BaseApiUrl),
             Timeout = TimeSpan.FromMinutes(1)
         };
     }
@@ -40,7 +40,7 @@ public class AuthHandler : DelegatingHandler
     {
         Console.WriteLine($"Отправка запроса: {request.Method} {request.RequestUri}");
 
-        var isApiRequest = request.RequestUri?.Host == "neurosyncapp.ru";
+        var isApiRequest = request.RequestUri?.Host == "localhost";
 
         if (isApiRequest &&
             !string.IsNullOrWhiteSpace(_tokenService.AccessToken))

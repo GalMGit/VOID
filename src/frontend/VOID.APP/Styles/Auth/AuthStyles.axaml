@@ -9,6 +9,19 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0 5 0 0"/>
     </Style>
+    
+    <Style Selector="ToggleButton.themeToggle">
+        <Setter Property="Background" Value="Transparent"/>
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </Style>
 
     <Style Selector="StackPanel.stack">
         <Setter Property="VerticalAlignment" Value="Center"/>

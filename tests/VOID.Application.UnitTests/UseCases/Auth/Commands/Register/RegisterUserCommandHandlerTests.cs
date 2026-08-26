@@ -77,7 +77,7 @@ public sealed class RegisterUserCommandHandlerTests
         await _bus
             .DidNotReceive()
             .PublishAsync(
-                Arg.Any<UserRegisteredEvent>());
+                Arg.Any<UserStartRegistrationEvent>());
     }
     
     [Fact]
@@ -139,7 +139,7 @@ public sealed class RegisterUserCommandHandlerTests
         await _bus
             .DidNotReceive()
             .PublishAsync(
-                Arg.Any<UserRegisteredEvent>());
+                Arg.Any<UserStartRegistrationEvent>());
     }
     
     [Fact]
@@ -203,7 +203,7 @@ public sealed class RegisterUserCommandHandlerTests
         await _bus
             .DidNotReceive()
             .PublishAsync(
-                Arg.Any<UserRegisteredEvent>());
+                Arg.Any<UserStartRegistrationEvent>());
     }
     
     [Fact]
@@ -271,7 +271,7 @@ public sealed class RegisterUserCommandHandlerTests
         await _bus
             .Received(1)
             .PublishAsync(
-                Arg.Is<UserRegisteredEvent>(e =>
+                Arg.Is<UserStartRegistrationEvent>(e =>
                     e.Email == dto.Email &&
                     e.Username == dto.Username &&
                     !string.IsNullOrEmpty(e.ConfirmationCode)));

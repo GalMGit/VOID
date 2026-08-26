@@ -21,6 +21,7 @@ public partial class LoginViewModel : PageViewModelBase
     [Reactive] public partial bool ShowPassword { get; set; }
 
     public ReactiveCommand<Unit, Unit> GoToRegisterCommand { get; }
+    public ReactiveCommand<Unit, Unit> GoToResetCommand { get; }
 
     public LoginViewModel(
         ITokenService tokenService,
@@ -39,6 +40,19 @@ public partial class LoginViewModel : PageViewModelBase
             MessageBus.Current.SendMessage(
                 Unit.Default,
                 MessageTokens.GoToRegister);
+            
+        }).DisposeWith(_disposables);
+        
+        GoToResetCommand = ReactiveCommand.Create(() =>
+        {
+            Username = string.Empty;
+            Password = string.Empty;
+            StatusMessage = string.Empty;
+            ShowPassword = false;
+            
+            MessageBus.Current.SendMessage(
+                Unit.Default,
+                MessageTokens.GoToResetPass);
             
         }).DisposeWith(_disposables);
     }

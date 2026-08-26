@@ -1,13 +1,17 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using VOID.APP.Extensions;
 using VOID.APP.Services.Interfaces.IAuth;
+using VOID.Shared.Contracts.DTOs.Auth.ChangePassword;
+using VOID.Shared.Contracts.DTOs.Auth.ConfirmResetPassword;
 using VOID.Shared.Contracts.DTOs.Auth.Login;
 using VOID.Shared.Contracts.DTOs.Auth.Register;
+using VOID.Shared.Contracts.DTOs.Auth.ResetPassword;
 using VOID.Shared.Contracts.DTOs.Auth.Token;
 
 namespace VOID.APP.Services.Implementations.Auth;
@@ -139,6 +143,23 @@ public partial class AuthService(
             ? (false, "Пароли не совпадают")
             : (true, string.Empty);
     }
+    
+    private (bool Success, string ErrorMessage) ValidateChangePasswordInput(
+        string oldPassword,
+        string newPassword)
+    {
+        var oldPasswordValidation = ValidatePassword(oldPassword);
+        if (!oldPasswordValidation.Success)
+            return oldPasswordValidation;
+        
+        var newPasswordValidation = ValidatePassword(newPassword);
+        if (!newPasswordValidation.Success)
+            return newPasswordValidation;
+
+        return oldPassword == newPassword
+            ? (false, "Пароли не должны совпадать")
+            : (true, string.Empty);
+    }
 
     private (bool Success, string ErrorMessage) ValidateEmail(string email)
     {
@@ -256,6 +277,36 @@ public partial class AuthService(
         return true;
     }
 
+    public async  Task<(bool Success, string ErrorMessage)> ChangePasswordAsync(
+        string oldPassword, 
+        string newPassword,
+        CancellationToken ct = default)
+    {
+        var (Success, ErrorMessage) = ValidateChangePasswordInput(
+            oldPassword,
+            newPassword);
+
+        if (!Success)
+            return (false, ErrorMessage);
+        
+        var request = new ChangePasswordDto
+        {
+            OldPassword = oldPassword,
+            NewPassword = newPassword
+        };
+
+        var response = await httpClient.PatchAsJsonAsync(
+            "auth/change-password", 
+            request, ct);
+
+        if (response.IsSuccessStatusCode)
+            return (true, string.Empty);
+
+        var errorMessage = await response.GetErrorMessageAsync();
+
+        return (false, errorMessage);
+    }
+
     public async Task<(bool Success, string ErrorMessage)> ConfirmEmailAsync(
         string confirmationCode, 
         string email, 
@@ -274,6 +325,69 @@ public partial class AuthService(
         if (response.IsSuccessStatusCode)
             return (true, string.Empty);
 
+        var errorMessage = await response.GetErrorMessageAsync();
+        return (false, errorMessage);
+    }
+
+    public async Task SendResetPasswordAsync(
+        string email, 
+        CancellationToken ct = default)
+    {
+        var request = new StartResetPasswordDto
+        {
+            Email = email
+        };
+
+         await httpClient.PostAsJsonAsync(
+            "auth/reset-password", 
+            request, ct);
+    }
+    
+    public async Task<(bool Success, string ErrorMessage, string token)> SendResetCodeAsync(
+        string email, 
+        string code,
+        CancellationToken ct = default)
+    {
+        var request = new ConfirmResetPasswordDto
+        {
+            Email = email,
+            Code = code
+        };
+
+        var response = await httpClient.PostAsJsonAsync(
+            "auth/confirm-password", 
+            request, ct);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var tokenJson = await response.Content.ReadAsStringAsync(ct);
+            var token = JsonSerializer.Deserialize<string>(tokenJson);
+            return (true, string.Empty, token);
+        }
+        
+        var errorMessage = await response.GetErrorMessageAsync();
+        return (false, errorMessage, string.Empty);
+    }
+
+    public async Task<(bool Success, string Error)> CompleteResetPasswordAsync(
+        string token, 
+        string newPassword, 
+        CancellationToken ct = default)
+    {
+        var request = new CompleteResetPasswordDto
+        {
+            NewPassword = newPassword,
+            ResetToken = token
+        };
+
+        var response = await httpClient.PatchAsJsonAsync(
+            "auth/reset-password", 
+            request, ct);
+        
+        if (response.IsSuccessStatusCode)
+            return (true, string.Empty);
+        
+        
         var errorMessage = await response.GetErrorMessageAsync();
         return (false, errorMessage);
     }

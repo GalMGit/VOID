@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using DialogHostAvalonia;
 using Microsoft.AspNetCore.SignalR.Client;
 using VOID.APP.Extensions;
@@ -47,6 +48,7 @@ public partial class LayoutViewModel : PageViewModelBase
     [Reactive] public partial PageViewModelBase? CurrentListContent { get; set; }
     [Reactive] public partial ModalViewModelBase? ProfileContent { get; set; }
     [Reactive] public partial ModalViewModelBase? CreateGroupContent { get; set; }
+    [Reactive] public partial ModalViewModelBase? SettingsContent { get; set; }
     [Reactive] public partial ModalViewModelBase? InterlocutorProfileContent { get; set; }
     [Reactive] public partial PageViewModelBase? SelectedListItem { get; set; }
     [Reactive] public partial bool IsThemeChecked { get; set; }
@@ -57,6 +59,7 @@ public partial class LayoutViewModel : PageViewModelBase
     public ReactiveCommand<Unit, Unit> OpenProfileDialogCommand { get; }
     public ReactiveCommand<Unit, Unit> SearchCommand { get; set; }
     public ReactiveCommand<Unit, Unit> OpenCreateGroupDialogCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenSettingsDialogCommand { get; } 
 
     public LayoutViewModel(
         UserSession userSession,
@@ -86,12 +89,21 @@ public partial class LayoutViewModel : PageViewModelBase
         CurrentListContent = ListPages[0];
 
         OpenProfileDialogCommand = ReactiveCommand.CreateFromTask(async () =>
-                await OpenDialogAsync(ProfileContent))
-            .DisposeWith(_disposables);
+        {
+            await OpenDialogAsync(ProfileContent);
+        })
+        .DisposeWith(_disposables);
+
+        OpenSettingsDialogCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            SettingsContent ??= _viewModelFactory.CreateSettings();
+            await OpenDialogAsync(SettingsContent);
+            
+        }).DisposeWith(_disposables);
 
         OpenCreateGroupDialogCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            CreateGroupContent ??= _viewModelFactory.CreateGroupModal();
+            CreateGroupContent = _viewModelFactory.CreateGroupModal();
 
             await OpenDialogAsync(CreateGroupContent);
         }).DisposeWith(_disposables);
@@ -109,6 +121,7 @@ public partial class LayoutViewModel : PageViewModelBase
             _searchVm ??= _viewModelFactory.CreateSearchList(SearchResults);
             CurrentListContent = _searchVm;
         });
+        _ = LoadThemeAsync();
         SetupSignalRHandlers();
         SetupMessages();
     }
@@ -124,7 +137,9 @@ public partial class LayoutViewModel : PageViewModelBase
     }
 
     private async Task OpenDialogAsync(ModalViewModelBase content)
-        => await _dialogService.ShowAsync(content);
+    {
+        await _dialogService.ShowAsync(content);
+    } 
 
     private void CloseDialog()
         => DialogHost.Close(DialogNames.Dialog);
@@ -149,5 +164,15 @@ public partial class LayoutViewModel : PageViewModelBase
                 : "Dark";
 
         await _settingsService.SaveSettingsAsync(settings);
+    }
+    
+    private async Task LoadThemeAsync()
+    {
+        var settings = await _settingsService.LoadSettingsAsync();
+
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            IsThemeChecked = settings.Theme == "Dark";
+        });
     }
 }

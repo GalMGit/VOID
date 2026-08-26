@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VOID.APP.ViewModels.Pages.Settings"
+             x:DataType="vm:SettingsViewModel"
+             x:Class="VOID.APP.Views.Pages.Settings.SettingsView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Profile/ProfileStyles.axaml"/>
+        <StyleInclude Source="/Styles/Modals/ModalStyles.axaml"/>
+    </UserControl.Styles>
+    
+    <Border
+        Classes="modalBorder"
+        Width="350"
+        CornerRadius="10"
+        Height="500">
+        <Grid RowDefinitions="Auto, *">
+                <Button Grid.Row="0" Command="{Binding GoToSettingsMenuCommand}"
+                        IsVisible="{Binding IsHomeButtonVisible}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <PathIcon Data="{StaticResource home_regular}"/>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            <ContentControl
+                Grid.Row="1"
+                Content="{Binding CurrentSettingsContent}"/>
+        </Grid>
+    </Border>
+</UserControl>

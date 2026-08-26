@@ -17,6 +17,7 @@
         x:Name="Dialog"
         Background="Transparent"
         BlurBackground="True"
+        DialogClosingCallback="Dialog_OnDialogClosing"
         ClipToBounds="False"
         BlurBackgroundRadius="10"
         DialogMargin="-5"
@@ -27,29 +28,10 @@
                x:Name="SplitView">
             <SplitView.Pane>
                 <Border Classes="backPaneBorder">
-                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*, Auto">
-                        <Grid Grid.Row="6"
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
+                        <Grid Grid.Row="7"
                               HorizontalAlignment="Right"
                               ColumnDefinitions="Auto, Auto, Auto">
-                            <ToggleButton
-                                Grid.Column="1"
-                                Classes="themeToggle"
-                                Command="{Binding SwitchThemeCommand}"
-                                x:Name="ToggleButton"
-                                IsChecked="{Binding IsThemeChecked}">
-                                <ToggleButton.ContentTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <PathIcon
-                                                IsVisible="{Binding #ToggleButton.IsChecked}"
-                                                Data="{StaticResource weather_moon_regular}" />
-                                            <PathIcon
-                                                IsVisible="{Binding !#ToggleButton.IsChecked}"
-                                                Data="{StaticResource weather_sunny_regular}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ToggleButton.ContentTemplate>
-                            </ToggleButton>
                         </Grid>
                         <Grid Grid.Row="1"
                               RowDefinitions="Auto,Auto"
@@ -76,7 +58,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <PathIcon
-                                            Data="{StaticResource person_board_regular}"/>
+                                            Data="{StaticResource person_regular}"/>
                                         <TextBlock
                                             Classes="menuButtonTextBlock"
                                             Text="Профиль"/>
@@ -98,6 +80,38 @@
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
+                        <Button Grid.Row="5"
+                                Classes="profileButton"
+                                Command="{Binding OpenSettingsDialogCommand}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <PathIcon Data="{StaticResource settings_regular}"/>
+                                        <TextBlock
+                                            Classes="menuButtonTextBlock"
+                                            Text="Настройки"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <StackPanel Grid.Row="6"
+                                    Orientation="Horizontal" Margin="23 10 0 0">
+                            <PathIcon Data="{StaticResource weather_moon_regular}"
+                                      Margin="0 0 10 0"/>
+                            <TextBlock Text="Ночной режим"
+                                       VerticalAlignment="Center"
+                                       Margin="0 0 10 0"
+                                       FontSize="15"/>
+                            <ToggleSwitch 
+                                OffContent=""
+                                VerticalAlignment="Center"
+                                OnContent=""
+                                Margin="0 1 0 0"
+                                Command="{Binding SwitchThemeCommand}" 
+                                x:Name="ToggleButton" 
+                                IsChecked="{Binding IsThemeChecked}"/>
+                        </StackPanel>
+                       
                     </Grid>
                 </Border>
             </SplitView.Pane>

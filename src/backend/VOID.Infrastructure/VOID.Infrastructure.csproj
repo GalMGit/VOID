@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Email/Templates/Register.html"/>
+        <EmbeddedResource Include="Email/Templates/Reset.html"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -52,6 +52,9 @@ using VOID.APP.ViewModels.Pages.Group.ListGroups;
 using VOID.APP.ViewModels.Pages.Layout;
 using VOID.APP.ViewModels.Pages.Layout.Search;
 using VOID.APP.ViewModels.Pages.Profile;
+using VOID.APP.ViewModels.Pages.Settings;
+using VOID.APP.ViewModels.Pages.Settings.ChangePassword;
+using VOID.APP.ViewModels.Pages.Settings.Menu;
 using VOID.APP.ViewModels.Window;
 using VOID.APP.Views.Window;
 
@@ -87,7 +90,7 @@ public static class DIConfig
 
             return new HttpClient(authHandler)
             {
-                BaseAddress = new Uri(Urls.ProdApiUrl),
+                BaseAddress = new Uri(Urls.BaseApiUrl),
                 Timeout = TimeSpan.FromMinutes(3)
             };
         });
@@ -96,7 +99,7 @@ public static class DIConfig
         {
             var tokenService = sp.GetRequiredService<ITokenService>();
             return new HubConnectionBuilder()
-                .WithUrl(Urls.ProdHubUrl, options =>
+                .WithUrl(Urls.BaseHubUrl, options =>
                 {
                     options.AccessTokenProvider = () =>
                         Task.FromResult(tokenService.AccessToken);
@@ -197,6 +200,18 @@ public static class DIConfig
 
         services.AddTransient<Func<ConfirmEmailViewModel>>(sp =>
             () => ActivatorUtilities.CreateInstance<ConfirmEmailViewModel>(sp));
+        
+        services.AddTransient<Func<SettingsViewModel>>(sp =>
+            () => ActivatorUtilities.CreateInstance<SettingsViewModel>(sp));
+        
+        services.AddTransient<Func<SettingsMenuViewModel>>(sp =>
+            () => ActivatorUtilities.CreateInstance<SettingsMenuViewModel>(sp));
+        
+        services.AddTransient<Func<ChangePasswordViewModel>>(sp =>
+            () => ActivatorUtilities.CreateInstance<ChangePasswordViewModel>(sp));
+        
+        services.AddTransient<Func<ResetPasswordViewModel>>(sp =>
+            () => ActivatorUtilities.CreateInstance<ResetPasswordViewModel>(sp));
 
         services.AddSingleton<IViewModelFactory, ViewModelFactory>();
     }

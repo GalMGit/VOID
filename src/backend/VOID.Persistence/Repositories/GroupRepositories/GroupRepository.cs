@@ -8,7 +8,9 @@ using VOID.Shared.Contracts.DTOs.Paginations;
 
 namespace VOID.Persistence.Repositories.GroupRepositories;
 
-public class GroupRepository(VoidDbContext database) : IGroupRepository
+public class GroupRepository(
+    VoidDbContext database) 
+    : IGroupRepository
 {
     public async Task<bool> ExistsAsync(
         Guid id,

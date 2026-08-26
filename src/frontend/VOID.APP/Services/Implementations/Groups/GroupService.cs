@@ -57,8 +57,7 @@ public class GroupService(HttpClient httpClient, IMapper mapper) : IGroupService
             .ReadFromJsonAsync<GroupDto>(ct);
 
         var createdGroup = mapper.Map<GroupModel>(result);
-
-        Console.WriteLine(createdGroup.ChatName);
+        
         return createdGroup;
     }
 

@@ -1,7 +1,7 @@
 using FluentAssertions;
 using NSubstitute;
 using VOID.Application.Abstractions.IServices.IMailServices;
-using VOID.Application.UseCases.Auth.Commands.SendRegistration;
+using VOID.Application.UseCases.Auth.Commands.Register.SendRegistration;
 using VOID.Application.UseCases.Auth.Events;
 using VOID.Shared.Contracts.DTOs.Auth.Register;
 using Xunit;
@@ -29,7 +29,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldGetRegistrationConfirmation_WhenUserRegistered()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john",
@@ -65,7 +65,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldEnqueueEmail_WhenUserRegistered()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john",
@@ -103,7 +103,7 @@ public sealed class SendRegistrationEmailHandlerTests
         var username = "john";
         var confirmationCode = "12345";
 
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             userId,
             email,
             username,
@@ -139,7 +139,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldPassCorrectUsername_WhenGettingTemplate()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john_doe",
@@ -175,7 +175,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldPassCorrectConfirmationCode_WhenGettingTemplate()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "jane@example.com",
             "jane",
@@ -211,7 +211,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldEnqueueCorrectEmail_WhenUserRegistered()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "alice@example.com",
             "alice",
@@ -255,7 +255,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldNotThrow_WhenEnqueueCompletes()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john",
@@ -286,7 +286,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldPropagateException_WhenTemplateServiceThrows()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john",
@@ -317,7 +317,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldUseCorrectCancellationToken_WhenHandling()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john",
@@ -354,7 +354,7 @@ public sealed class SendRegistrationEmailHandlerTests
     public async Task Handle_ShouldCallTemplateServiceBeforeEnqueue_WhenUserRegistered()
     {
         // Arrange
-        var message = new UserRegisteredEvent(
+        var message = new UserStartRegistrationEvent(
             Guid.NewGuid(),
             "john@example.com",
             "john",

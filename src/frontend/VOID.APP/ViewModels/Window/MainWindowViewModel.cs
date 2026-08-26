@@ -113,6 +113,8 @@ public partial class MainWindowViewModel : ViewModelBase
                         settings.Theme == "Light"
                             ? ThemeVariant.Light
                             : ThemeVariant.Dark;
+                    
+                    MessageBus.Current.SendMessage(settings.Theme, "Theme");
                 }
             });
     }
@@ -136,6 +138,8 @@ public partial class MainWindowViewModel : ViewModelBase
                     MessageBus.Current.SendMessage(
                         Unit.Default,
                         MessageTokens.LoadAvatars);
+                    
+                    
                 }))
             .Subscribe();
 

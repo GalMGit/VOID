@@ -33,4 +33,31 @@ public sealed class EmailTemplateService : IEmailTemplateService
             Body = html
         };
     }
+    
+    public EmailTaskDto GetResetConfirmation(
+        string toEmail,
+        string code)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using var stream = assembly.GetManifestResourceStream(
+            "VOID.Infrastructure.Email.Templates.Reset.html");
+
+        if (stream is null)
+            throw new FileNotFoundException(
+                "Embedded resource Reset.html not found.");
+
+        using var reader = new StreamReader(stream);
+
+        var html = reader.ReadToEnd()
+            .Replace("{{Email}}", toEmail)
+            .Replace("{{Code}}", code);
+
+        return new EmailTaskDto
+        {
+            ToEmail = toEmail,
+            Subject = "Подтверждение смены пароля в VOID Messenger",
+            Body = html
+        };
+    }
 }
