@@ -7,40 +7,50 @@ using VOID.Application.Abstractions.IServices.IMailServices;
 namespace VOID.Infrastructure.Email;
 
 public class BackgroundEmailService(
-    IEmailQueueService emailQueueService,
+    IEmailQueueService queue,
     IServiceScopeFactory scopeFactory,
-    ILogger<BackgroundEmailService> logger
-    ) : BackgroundService
+    ILogger<BackgroundEmailService> logger)
+    : BackgroundService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(
+        CancellationToken stoppingToken)
     {
-        while(!stoppingToken.IsCancellationRequested)
+        while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                var emailTask = await emailQueueService.DequeueAsync(stoppingToken);
+                var emailTask = await queue.DequeueAsync(stoppingToken);
 
-                if (emailTask is not null)
+                using var scope = scopeFactory.CreateScope();
+
+                var emailService =
+                    scope.ServiceProvider.GetRequiredService<IEmailService>();
+
+                var result = await emailService.SendMailAsync(
+                    emailTask.ToEmail,
+                    emailTask.Subject,
+                    emailTask.Body);
+
+                if (result)
                 {
-                    using var scope = scopeFactory.CreateScope();
-                    var emailService = scope.ServiceProvider
-                        .GetRequiredService<IEmailService>();
-
-                    await emailService.SendMailAsync(
-                        emailTask.ToEmail,
-                        emailTask.Subject,
-                        emailTask.Body);
-                    
-                    logger.LogInformation($"Письмо отправлено на адрес: {emailTask.ToEmail}");
+                    logger.LogInformation(
+                        "Email sent to {Email}",
+                        emailTask.ToEmail);
+                }
+                else
+                {
+                    logger.LogError(
+                        "Failed to send email to {Email}",
+                        emailTask.ToEmail);
                 }
             }
             catch (OperationCanceledException)
             {
                 break;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+                logger.LogError(ex, "Error while processing email");
             }
         }
     }

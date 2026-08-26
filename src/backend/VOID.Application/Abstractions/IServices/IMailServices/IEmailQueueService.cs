@@ -6,6 +6,6 @@ namespace VOID.Application.Abstractions.IServices.IMailServices;
 
 public interface IEmailQueueService
 {
-    void EnqueueEmail(EmailTaskDto emailTask);
+    Task EnqueueAsync(EmailTaskDto emailTask);
     Task<EmailTaskDto?> DequeueAsync(CancellationToken ct);
 }
