@@ -87,7 +87,6 @@ Backend разделён на несколько проектов:
 - **Docker Compose** — оркестрация контейнеров
 - **Nginx** — reverse proxy
 - **Beget** — hosting
--
 
 ## Структура проекта
 
