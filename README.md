@@ -48,26 +48,46 @@ Backend разделён на несколько проектов:
 
 ### Backend
 
-- C#
-- .NET 10
-- ASP.NET Core
-- Entity Framework Core
-- PostgreSQL
-- Wolverine
-- JWT
-- MailKit
-- AutoMapper
+- **C# / .NET 10**
+- **ASP.NET Core 10 Minimal API** — backend API
+- **Entity Framework Core** — ORM
+- **PostgreSQL** — основная база данных
+- **Redis** — кэширование
+- **Wolverine** — CQRS, обработка команд, событий и сообщений
+- **SignalR** — real-time коммуникация
+- **JWT (Access / Refresh Tokens)** — аутентификация
+- **Serilog** — структурированное логирование
+- **AutoMapper** — маппинг объектов
+- **Scalar** — документация API
+- **BCrypt** — хеширование паролей
+- **SMTP (Gmail)** — отправка email
+- **S3 Storage (Beget)** — public / private файловое хранилище
+- **AES-256-GCM** — серверное шифрование сообщений
 
 ### Frontend
 
-- C#
-- Avalonia UI
+- **C# / .NET 10**
+- **Avalonia UI** — desktop-приложение
+- **MVVM + ReactiveUI** — архитектура клиентского приложения
+- **SignalR** — real-time обновления
+- **LibVLC** — воспроизведение видео
+- **SoundFlow** — запись голосовых сообщений
+- **Avalonia.Labs.Notifications** — desktop-уведомления
+- **AnimatedImage.Avalonia** — работа с GIF
+- **AsyncImageLoader.Avalonia** — загрузка и кэширование изображений (Memory / Disk)
+- **Iciclecreek.Avalonia.Controls.Media** — интеграция видеокомпонентов
 
-### Инфраструктура
+### Testing
 
-- Docker
-- Docker Compose
-- GitHub Actions
+- **xUnit v3** — unit-тестирование
+
+### Infrastructure
+
+- **Docker** — контейнеризация
+- **Docker Compose** — оркестрация контейнеров
+- **Nginx** — reverse proxy
+- **Beget** — hosting
+-
 
 ## Структура проекта
 
