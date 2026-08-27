@@ -61,6 +61,7 @@
     <Style Selector="ListBox.pagesList ListBoxItem /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="5"/>
         <Setter Property="Margin" Value="10"/>
         <Setter Property="Foreground" Value="{DynamicResource TextDefault}"/>
     </Style>
@@ -139,6 +140,8 @@
         <Setter Property="DisplayMode" Value="Overlay" />
         <Setter Property="PaneBackground" Value="Transparent" />
     </Style>
+    
+    
 
     <Style Selector="TextBlock.themeTextBlock">
         <Setter Property="FontSize" Value="17"/>

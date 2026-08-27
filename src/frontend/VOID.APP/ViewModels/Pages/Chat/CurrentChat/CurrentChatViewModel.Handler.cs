@@ -200,6 +200,13 @@ public partial class CurrentChatViewModel
 
     private void SetupMessages()
     {
+        this.WhenAnyValue(x => x.MessageText)
+            .Subscribe(text =>
+            {
+                IsMessageBoxNotEmpty = !string.IsNullOrWhiteSpace(text);
+            });
+        
+        
         MessageBus.Current.Listen<Unit>(MessageTokens.LoadMessages)
             .SelectMany(_ => Observable.FromAsync(async () =>
                 {

@@ -25,6 +25,7 @@
         OverlayBackground="#80111111">
            <SplitView
                Classes="mainSplitView"
+               UseLightDismissOverlayMode="True"
                x:Name="SplitView">
             <SplitView.Pane>
                 <Border Classes="backPaneBorder">

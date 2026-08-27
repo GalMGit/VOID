@@ -335,6 +335,14 @@
                 <Setter Property="Background"
                         Value="Transparent" />
         </Style>
+        
+        <Style Selector="ListBox.ListStyle ListBoxItem:selected Border.itemMessage">
+                <Setter Property="Background" Value="{DynamicResource ListBoxMessageItemBackgroundSelected}"/>
+        </Style>
+        
+        <Style Selector="ListBox.ListStyle ListBoxItem:selected:pointerover Border.itemMessage">
+                <Setter Property="Background" Value="{DynamicResource ListBoxMessageItemBackgroundSelected}"/>
+        </Style>
 
         <Style Selector="ToggleButton.splitToggle">
                 <Setter Property="Background" Value="Transparent"/>

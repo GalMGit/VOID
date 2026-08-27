@@ -6,6 +6,7 @@
             <SolidColorBrush x:Key="TextDefault" Color="Silver"/>
             <SolidColorBrush x:Key="ToggleSwitchFillOn" Color="#3C3C3B"></SolidColorBrush>
             <SolidColorBrush x:Key="ToggleSwitchFillOnPointerOver" Color="#3C3C3B"/>
+            <SolidColorBrush x:Key="SplitViewLightDismissOverlayBackground" Color="#3B090909"/>
             <SolidColorBrush x:Key="ToggleSwitchStrokeOnPointerOver" Color="#3C3C3B"/>
             <SolidColorBrush x:Key="ToggleSwitchFillOnPressed" Color="#3C3C3B"/>
             <SolidColorBrush x:Key="ToggleSwitchStrokeOnPressed" Color="#3C3C3B"/>
@@ -21,6 +22,7 @@
             <SolidColorBrush x:Key="ListBoxItemBackground" Color="#181818"/>
             <SolidColorBrush x:Key="MessageItemBackground" Color="#181818"/>
             <SolidColorBrush x:Key="ListBoxItemBackgroundSelected" Color="#151515"/>
+            <SolidColorBrush x:Key="ListBoxMessageItemBackgroundSelected" Color="#0F0F0F"/>
             <SolidColorBrush x:Key="ListBoxItemBackgroundPointerover" Color="#1f1f1f"/>
             <SolidColorBrush x:Key="UserControlBackground" Color="#131313"/>
             <SolidColorBrush x:Key="BackChatContentBorder" Color="#111111"/>
@@ -49,6 +51,7 @@
             <SolidColorBrush x:Key="ButtonBackground" Color="#E5E5E5"/>
             <SolidColorBrush x:Key="MainBackground" Color="#F8F8F8"/>
             <SolidColorBrush x:Key="ErrorMessageForeground" Color="#561312"/>
+            <SolidColorBrush x:Key="SplitViewLightDismissOverlayBackground" Color="#1A3E3E3E"/>
             <SolidColorBrush x:Key="TextBoxMain" Color="#E5E5E5"/>
             <SolidColorBrush x:Key="TextBoxFocus" Color="#D8D8D8"/>
             <SolidColorBrush x:Key="TextBoxPointerover" Color="LightGray"/>
@@ -56,6 +59,7 @@
             <SolidColorBrush x:Key="MessageItemBackground" Color="#E9E9E9"/>
             <SolidColorBrush x:Key="ListBoxItemBackground" Color="#BEBEBE"/>
             <SolidColorBrush x:Key="ListBoxItemBackgroundSelected" Color="#E1E1E1"/>
+            <SolidColorBrush x:Key="ListBoxMessageItemBackgroundSelected" Color="#E8E8E8"/>
             <SolidColorBrush x:Key="ListBoxItemBackgroundPointerover" Color="#D6D6D6"/>
             <SolidColorBrush x:Key="UserControlBackground" Color="#E5E5E5"/>
             <SolidColorBrush x:Key="BackChatContentBorder" Color="#F2F2F2"/>

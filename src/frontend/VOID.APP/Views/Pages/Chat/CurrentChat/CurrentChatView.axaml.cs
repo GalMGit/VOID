@@ -9,6 +9,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using Iciclecreek.Avalonia.Controls.Media;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
@@ -16,6 +17,7 @@ using VOID.APP.Models.Messages;
 using VOID.APP.Models.Navigation;
 using VOID.APP.ViewModels.Modals.Image;
 using VOID.APP.ViewModels.Modals.Video;
+using VOID.APP.ViewModels.Pages.Chat.CurrentChat;
 using VOID.APP.Views.Window;
 
 namespace VOID.APP.Views.Pages.Chat.CurrentChat;
@@ -28,6 +30,11 @@ public partial class CurrentChatView : ReactiveUserControl<CurrentChatView>
     public CurrentChatView()
     {
         InitializeComponent();
+        
+        MessageListBox.AddHandler(
+            InputElement.PointerPressedEvent,
+            MessageListBox_OnPointerPressed,
+            RoutingStrategies.Tunnel);
 
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
@@ -170,6 +177,48 @@ public partial class CurrentChatView : ReactiveUserControl<CurrentChatView>
             {
                 window.Show();
             }
+        }
+    }
+
+    private void MessageListBox_OnPointerPressed(
+        object? sender,
+        PointerPressedEventArgs e)
+    {
+        if (e.Source is not Control source)
+            return;
+
+        var item = source.FindAncestorOfType<ListBoxItem>();
+
+        if (item is null)
+            return;
+
+        if (item.DataContext is not MessageModel message)
+            return;
+
+        var point = e.GetCurrentPoint(item);
+
+        // Правый клик — не меняем selection
+        if (point.Properties.IsRightButtonPressed)
+        {
+            e.Handled = true;
+            return;
+        }
+        
+        if (!message.IsMine)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        // Левая кнопка
+        if (!point.Properties.IsLeftButtonPressed)
+            return;
+        
+
+        if (item.IsSelected)
+        {
+            item.IsSelected = false;
+            e.Handled = true;
         }
     }
 }

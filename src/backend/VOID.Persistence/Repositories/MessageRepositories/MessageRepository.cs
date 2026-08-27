@@ -133,6 +133,22 @@ public class MessageRepository(
             _ => []
         };
 
+    public async Task<List<Message>> GetByIds(
+        IReadOnlyCollection<Guid> messageIds, 
+        Guid userId,
+        CancellationToken ct = default)
+        => await database.Messages
+            .Where(x => messageIds.Contains(x.Id) &&
+                        x.SenderId == userId)
+            .ToListAsync(ct);
+
+    public async Task DeleteRangeAsync(
+        IReadOnlyCollection<Guid> messageIds,
+        CancellationToken ct = default)
+        => await database.Messages
+            .Where(x => messageIds.Contains(x.Id))
+            .ExecuteDeleteAsync(ct);
+
     public async Task<int> GetTotalCountByChatAsync(
         Guid chatId,
         CancellationToken ct = default)

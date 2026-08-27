@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -96,6 +97,26 @@ public class MessageService(
         CancellationToken ct = default)
         => await httpClient.DeleteAsync(
             $"messages/{messageId}", ct);
+
+    public async Task DeleteMessagesAsync(
+        List<Guid> messageIds,
+        CancellationToken ct = default)
+    {
+        var request = new DeleteMessagesDto
+        {
+            MessageIds = messageIds
+        };
+
+        using var httpRequest = new HttpRequestMessage(
+            HttpMethod.Delete,
+            "messages")
+        {
+            Content = JsonContent.Create(request)
+        };
+
+        await httpClient.SendAsync(httpRequest, ct);
+    }
+       
 
     public async Task UpdateMessageAsync(
         Guid messageId, 

@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using ReactiveUI;
 using VOID.APP.Models.Navigation;
 
@@ -18,6 +19,10 @@ public partial class ListChatsView : UserControl
     public ListChatsView()
     {
         InitializeComponent();
+        ListBox.AddHandler(
+            InputElement.PointerPressedEvent,
+            ListBox_OnPointerPressed,
+            RoutingStrategies.Tunnel);
         this.Loaded += OnLoaded;
     }
 
@@ -48,5 +53,36 @@ public partial class ListChatsView : UserControl
         }
 
         _lastScrollOffset = currentOffset;
+    }
+    
+    private void ListBox_OnPointerPressed(
+        object? sender,
+        PointerPressedEventArgs e)
+    {
+        if (e.Source is not Control source)
+            return;
+
+        var item = source.FindAncestorOfType<ListBoxItem>();
+
+        if (item is null)
+            return;
+
+        var point = e.GetCurrentPoint(item);
+
+        // Правый клик — не меняем selection
+        if (point.Properties.IsRightButtonPressed)
+        {
+            e.Handled = true;
+            return;
+        }
+        
+        if (!point.Properties.IsLeftButtonPressed)
+            return;
+
+        if (item.IsSelected)
+        {
+            item.IsSelected = false;
+            e.Handled = true;
+        }
     }
 }

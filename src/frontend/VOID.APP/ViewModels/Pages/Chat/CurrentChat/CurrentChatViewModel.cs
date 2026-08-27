@@ -1,11 +1,16 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Collections;
 using Avalonia.Threading;
+using DynamicData;
 using Microsoft.AspNetCore.SignalR.Client;
 using MsBox.Avalonia;
 using VOID.Shared.Contracts.Enums.Chats;
@@ -28,6 +33,8 @@ public partial class CurrentChatViewModel : BaseChatViewModel
     [Reactive] public partial FullChatModel CurrentChat { get; set; }
     public ReactiveCommand<Unit, Unit> OpenProfileDialogCommand { get; set; }
     public ReactiveCommand<Unit, Unit> ClearSelectionCommand { get; }
+    [Reactive] public partial bool IsMessageBoxNotEmpty { get; set; }
+    public ObservableCollection<MessageModel> SelectedMessages { get; set; } = [];
     [Reactive] public partial string ErrorMessage { get; set; }
 
     private bool _isActive;
@@ -154,6 +161,32 @@ public partial class CurrentChatViewModel : BaseChatViewModel
 
     protected override async Task DeleteMessageAsync(MessageModel message)
         => await MessageService.HardMessageDeleteAsync(message.Id);
+
+    [ReactiveCommand]
+    private void ClearSelections(IList messages)
+        => Dispatcher.UIThread.InvokeAsync(messages.Clear);
+    
+
+    [ReactiveCommand]
+    private void DeleteSelections(IList messages)
+    {
+        List<MessageModel> items = [];
+        foreach (var item in messages)
+        {
+            if (item is not MessageModel message) 
+                continue;
+            
+            items.Add(message);
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Messages.RemoveMany(items);
+            });
+        }
+        MessageService.DeleteMessagesAsync(items
+            .Select(x => x.Id)
+            .ToList());
+    }
     
     public async Task Activate()
     {

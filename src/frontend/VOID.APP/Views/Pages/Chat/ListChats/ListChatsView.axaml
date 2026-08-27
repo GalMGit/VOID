@@ -22,6 +22,7 @@
         <ListBox ItemsSource="{Binding Chats}"
                  SelectedItem="{Binding SelectedChatItem}"
                  x:Name="ListBox"
+                 PointerPressed="ListBox_OnPointerPressed"
                  Classes="chatsList"
                  SelectionMode="Single">
             <ListBox.ItemsPanel>

@@ -18,4 +18,6 @@ public interface IMessageRepository : IRepository<Message>
     Task<int> GetTotalCountByGroupAsync(Guid groupId, CancellationToken ct = default);
     Task<Dictionary<Guid, int>> GetUnreadCountsAsync(Guid userId, List<Guid> chatIds, CancellationToken ct = default);
     Task<List<Message>> GetMessagesByParentAsync(Guid parentId,ChatType chatType, PaginationRequest pagination, CancellationToken ct = default);
+    Task<List<Message>> GetByIds(IReadOnlyCollection<Guid> messageIds, Guid userId, CancellationToken ct = default);
+    Task DeleteRangeAsync(IReadOnlyCollection<Guid> messageIds, CancellationToken ct = default);
 }
