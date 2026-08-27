@@ -5,9 +5,12 @@
 VOID — полнофункциональное приложение для обмена сообщениями,
 разработанное на C#/.NET с отдельным desktop-клиентом на Avalonia UI.
 
-Проект создаётся с использованием принципов Clean Architecture,
+Проект построен с использованием принципов Clean Architecture,
 разделения ответственности и Dependency Injection.
 
+## Архитектура
+
+![Архитектура проекта](docs/architecture.png)
 
 ### Backend
 
@@ -31,17 +34,20 @@ Backend разделён на несколько проектов:
 ## Возможности
 
 - Регистрация и авторизация
-- JWT access/refresh tokens
+- JWT Access / Refresh Tokens
 - Личные чаты
 - Групповые чаты
 - Отправка сообщений
 - Удаление сообщений
 - Массовое удаление сообщений
 - Отправка изображений и видео
+- Отправка голосовых сообщений
 - Работа с медиафайлами
 - Email-уведомления
+- Real-time коммуникация через SignalR
 - События приложения
 - Фоновые задачи
+- Кэширование
 - Миграции базы данных
 
 ## Технологии
@@ -60,8 +66,8 @@ Backend разделён на несколько проектов:
 - **AutoMapper** — маппинг объектов
 - **Scalar** — документация API
 - **BCrypt** — хеширование паролей
-- **SMTP (Gmail)** — отправка email
-- **S3 Storage (Beget)** — public / private файловое хранилище
+- **MailKit + SMTP (Gmail)** — отправка email
+- **S3-compatible Storage (Beget)** — хранение медиафайлов
 - **AES-256-GCM** — серверное шифрование сообщений
 
 ### Frontend
@@ -84,7 +90,7 @@ Backend разделён на несколько проектов:
 ### Infrastructure
 
 - **Docker** — контейнеризация
-- **Docker Compose** — оркестрация контейнеров
+- **Docker Compose** — запуск и управление сервисами
 - **Nginx** — reverse proxy
 - **Beget** — hosting
 
@@ -108,6 +114,9 @@ VOID
 │
 ├── tests
 │   └── VOID.Application.UnitTests
+│
+├── docs
+│   └── architecture.png
 │
 ├── docker-compose.yml
 └── README.md
